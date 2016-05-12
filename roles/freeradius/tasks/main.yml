@@ -1,0 +1,98 @@
+- name: Install Freeradius
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
+  with_items:
+    - freeradius
+    - freeradius-ldap
+
+- name: Copy clients.conf
+  template: > 
+    src=clients.conf.j2 
+    dest=/etc/freeradius/clients.conf
+  notify: restart freeradius
+
+- name: Copy proxy.conf
+  template: > 
+    src=proxy.conf.j2 
+    dest=/etc/freeradius/proxy.conf
+  notify: restart freeradius
+
+- name: Copy radiusd.conf
+  template: > 
+    src=radiusd.conf.j2 
+    dest=/etc/freeradius/radiusd.conf
+  notify: restart freeradius
+
+- name: Copy eap.conf
+  template: > 
+    src=eap.conf.j2 
+    dest=/etc/freeradius/eap.conf
+  notify: restart freeradius
+
+- name: Copy private key
+  copy: > 
+    src={{ domain }}.key 
+    dest=/etc/ssl/private/{{ domain }}.key
+    owner=root
+    group=ssl-cert
+    mode=0640
+  notify: restart freeradius
+
+- name: Copy public key
+  copy: > 
+    src={{ domain }}.crt 
+    dest=/etc/ssl/certs/{{ domain }}.crt
+  notify: restart freeradius
+
+- name: Link private key
+  file: > 
+    src=/etc/ssl/private/{{ domain }}.key 
+    dest=/etc/freeradius/certs/{{ domain }}.key
+    state=link
+  notify: restart freeradius
+
+- name: Link public key
+  file: > 
+    src=/etc/ssl/certs/{{ domain }}.crt 
+    dest=/etc/freeradius/certs/{{ domain }}.crt
+    state=link
+  notify: restart freeradius
+
+- name: Copy modules/ldap
+  template: > 
+    src=modules-ldap.j2 
+    dest=/etc/freeradius/modules/ldap
+  notify: restart freeradius
+
+- name: Add test user
+  template: > 
+    src=users.j2 
+    dest=/etc/freeradius/users
+    backup=yes
+  notify: restart freeradius
+
+- name: Copy sites/eduroam
+  template: > 
+    src=sites-eduroam.j2 
+    dest=/etc/freeradius/sites-available/eduroam
+  notify: restart freeradius
+
+- name: Enable sites/eduroam
+  file: >
+    src=/etc/freeradius/sites-available/eduroam 
+    dest=/etc/freeradius/sites-enabled/eduroam
+    state=link 
+  notify: restart freeradius
+
+- name: Copy sites/eduroam_inner_tunnel
+  template: > 
+    src=sites-eduroam_inner_tunnel.j2 
+    dest=/etc/freeradius/sites-available/eduroam_inner_tunnel
+  notify: restart freeradius
+
+- name: Enable sites/eduroam_inner_tunnel
+  file: >
+    src=/etc/freeradius/sites-available/eduroam_inner_tunnel 
+    dest=/etc/freeradius/sites-enabled/eduroam_inner_tunnel
+    state=link
+  notify: restart freeradius
+    

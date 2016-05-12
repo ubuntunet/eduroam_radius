@@ -1,0 +1,64 @@
+client {{ client_name }} {
+  ipaddr                          = {{ client_ip4 }}
+  netmask                         = {{ client_netmask }}
+  secret                          = {{ client_secret }}
+  require_message_authenticator   = no
+  shortname                       = {{ client_shortname }}
+  nastype                         = {{ client_nastype }}
+  virtual_server                  = eduroam
+}
+
+
+client 127.0.0.1 { 
+  ipaddr                          = 127.0.0.1
+  netmask                         = 32
+  secret                          = testing123
+  require_message_authenticator   = no 
+  shortname                       = loopback 
+  nastype                         = other
+  virtual_server                  = eduroam 
+}
+
+
+client {{ flr1_ip4_name }} {
+  ipaddr                          = {{ flr1_ip4 }}
+  netmask                         = 32
+  secret                          = {{ flr_secret }}
+  require_message_authenticator   = no
+  shortname                       = {{ flr1_ip4_name }}
+  nastype                         = other
+  virtual_server                  = eduroam
+}
+
+#client {{ flr1_ip6_name }} {
+#        ipv6addr                        = {{ flr1_ip6 }}
+#        netmask                         = 128
+#        secret                          = {{ flr_secret }}
+#        require_message_authenticator   = no
+#        shortname                       = {{ flr1_ip6_name }}
+#        nastype                         = other
+#        virtual_server                  = eduroam
+#}
+
+
+
+client flra.eduroam.mw {
+  ipaddr                          = {{ flra_ip4 }}
+  netmask                         = 32
+  secret                          = evenmoresecretsecret
+  require_message_authenticator   = no
+  shortname                       = eduroam-flra-mw
+  nastype                         = other
+  virtual_server                  = eduroam
+}
+
+#client {{ flra_ip6_name }} {
+#        ipv6addr                        = {{ flra_ip6 }}
+#        netmask                         = 128
+#        secret                          = {{ flr_secret }}
+#        require_message_authenticator   = no
+#        shortname                       = {{ flra_ip6_name }}
+#        nastype                         = other
+#        virtual_server                  = eduroam
+#}
+

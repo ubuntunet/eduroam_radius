@@ -1,0 +1,11 @@
+- name: Install eduroam Identity Provider
+  hosts: idp
+  become: True
+  vars_files:
+    - group_vars/secrets.yml
+  roles:
+    - freeradius
+ 
+  handlers:
+    - name: restart freeradius
+      service: name=freeradius state=restarted

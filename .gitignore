@@ -1,0 +1,8 @@
+*.crt
+*.key
+
+*.retry
+
+group_vars/secrets.yml
+
+.vagrant%

@@ -1,0 +1,46 @@
+server eduroam-inner-tunnel {
+  authorize {
+    auth_log
+    files
+    ldap
+    mschap
+    pap
+  }
+  
+  authenticate {
+    Auth-Type LDAP {
+      ldap
+    }
+
+    Auth-Type PAP {
+      pap
+    }
+
+    Auth-Type MS-CHAP {
+      mschap
+    } 
+  }
+
+  preacct {
+  }
+  
+  accounting {
+    detail
+  }
+
+  session {
+  }
+
+  post-auth {
+    reply_log
+    Post-Auth-Type REJECT {
+      reply_log
+    }
+  }
+
+  pre-proxy {
+  }
+
+  post-proxy {
+  }
+} 

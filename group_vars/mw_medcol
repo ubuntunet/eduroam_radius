@@ -1,0 +1,23 @@
+domain: medcol.mw
+
+client_ip4: 41.70.24.0
+#client_ip6: 
+client_netmask: 24
+client_name: TestMikrotik
+client_shortname: test-mikrotik
+client_nastype: other
+
+flr1_ip4: 41.70.23.5
+flr1_ip4_name: flr1.eduroam.mw4
+flr1_ip6: 
+flr1_ip6_name: flr1.eduroam.mw6
+
+flra_ip4: 168.253.216.149
+flra_ip4_name: flra.eduroam.mw4
+flra_ip6: 
+flra_ip6_name: flra.eduroam.mw6
+
+ldap_server: authsrv.medcol.mw
+ldap_identity: uid=zmposix,cn=appaccts,cn=zimbra
+ldap_base_dn: ou=people,dc=medcol,dc=mw
+ldap_filter: (uid=%{User-Name})

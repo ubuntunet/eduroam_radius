@@ -3,6 +3,6 @@
     identity = "{{ ldap_identity }}"
     password = "{{ ldap_password }}"
     basedn = "{{ ldap_base_dn }}"
-    filter = "{{ ldap_filter }}"
+    filter = {% raw %}"{{ ldap_filter }}"{% endraw %}
     start_tls = no
   }

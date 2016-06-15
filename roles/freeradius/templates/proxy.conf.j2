@@ -13,7 +13,7 @@ home_server {{ flr1_ip4_name }} {
         type                    = auth+acct
         ipaddr                  = {{ flr1_ip4 }}
         port                    = 1812
-        secret                  = {{ flr_secret }}
+        secret                  = {{ flr1_secret }}
         response_window         = 20
         zombie_period           = 40
         revive_interval         = 60
@@ -22,24 +22,24 @@ home_server {{ flr1_ip4_name }} {
         num_answers_to_alive    = 3
 }
 
-#home_server {{ flr1_ip6_name }} {
-#        type                    = auth+acct
-#        ipv6addr                = {{ flr1_ip6 }}
-#        port                    = 1812
-#        secret                  = {{ flr_secret }}
-#        response_window         = 20
-#        zombie_period           = 40
-#        revive_interval         = 60
-#        status_check            = status-server
-#        check_interval          = 30
-#        num_answers_to_alive    = 3
-#}
+home_server {{ flr1_ip6_name }} {
+       type                    = auth+acct
+       ipv6addr                = {{ flr1_ip6 }}
+       port                    = 1812
+       secret                  = {{ flr1_secret }}
+       response_window         = 20
+       zombie_period           = 40
+       revive_interval         = 60
+       status_check            = status-server
+       check_interval          = 30
+       num_answers_to_alive    = 3
+}
 
 home_server {{ flra_ip4_name }} {
         type                    = auth+acct
         ipaddr                  = {{ flra_ip4 }}
         port                    = 1812
-        secret                  = {{ flr_secret }}
+        secret                  = {{ flra_secret }}
         response_window         = 20
         zombie_period           = 40
         revive_interval         = 60
@@ -52,7 +52,7 @@ home_server {{ flra_ip4_name }} {
 #        type                    = auth+acct
 #        ipv6addr                = {{ flra_ip6 }}
 #        port                    = 1812
-#        secret                  = {{ flr_secret }}
+#        secret                  = {{ flra_secret }}
 #        response_window         = 20
 #        zombie_period           = 40
 #        revive_interval         = 60
@@ -72,7 +72,7 @@ home_server {{ flra_ip4_name }} {
 home_server_pool EDUROAM-FTLR {
         type                    = fail-over
         home_server             = {{ flr1_ip4_name }}
-        # home_server             = {{ flr1_ip6_name }}
+        home_server             = {{ flr1_ip6_name }}
         home_server             = {{ flra_ip4_name }}
         # home_server             = {{ flra_ip6_name }}
 }
@@ -82,7 +82,7 @@ home_server_pool EDUROAM-FTLR {
 #<!-- Realms known to the server are listed in realm sections. The nostrip command specifies that no domain stripping is performed (usernames always remain Network Access Identifier in the form short_username@domain.tld, for both local and roaming users).--!>
 
 realm {{ domain }} {
-	  nostrip
+#	  nostrip
 }
 
 realm LOCAL {

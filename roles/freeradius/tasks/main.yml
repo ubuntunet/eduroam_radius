@@ -8,59 +8,28 @@
   template: > 
     src=clients.conf.j2 
     dest=/etc/freeradius/clients.conf
+    backup=yes
   notify: restart freeradius
 
 - name: Copy proxy.conf
   template: > 
     src=proxy.conf.j2 
     dest=/etc/freeradius/proxy.conf
-  notify: restart freeradius
-
-- name: Copy radiusd.conf
-  template: > 
-    src=radiusd.conf.j2 
-    dest=/etc/freeradius/radiusd.conf
+    backup=yes
   notify: restart freeradius
 
 - name: Copy eap.conf
   template: > 
     src=eap.conf.j2 
     dest=/etc/freeradius/eap.conf
-  notify: restart freeradius
-
-- name: Copy private key
-  copy: > 
-    src={{ domain }}.key 
-    dest=/etc/ssl/private/{{ domain }}.key
-    owner=root
-    group=ssl-cert
-    mode=0640
-  notify: restart freeradius
-
-- name: Copy public key
-  copy: > 
-    src={{ domain }}.crt 
-    dest=/etc/ssl/certs/{{ domain }}.crt
-  notify: restart freeradius
-
-- name: Link private key
-  file: > 
-    src=/etc/ssl/private/{{ domain }}.key 
-    dest=/etc/freeradius/certs/{{ domain }}.key
-    state=link
-  notify: restart freeradius
-
-- name: Link public key
-  file: > 
-    src=/etc/ssl/certs/{{ domain }}.crt 
-    dest=/etc/freeradius/certs/{{ domain }}.crt
-    state=link
+    backup=yes
   notify: restart freeradius
 
 - name: Copy modules/ldap
   template: > 
     src=modules-ldap.j2 
     dest=/etc/freeradius/modules/ldap
+    backup=yes
   notify: restart freeradius
 
 - name: Add test user
@@ -70,29 +39,60 @@
     backup=yes
   notify: restart freeradius
 
-- name: Copy sites/eduroam
+- name: Copy sites/default-eduroam
   template: > 
-    src=sites-eduroam.j2 
-    dest=/etc/freeradius/sites-available/eduroam
+    src=sites_default-eduroam.j2 
+    dest=/etc/freeradius/sites-available/default-eduroam
   notify: restart freeradius
 
-- name: Enable sites/eduroam
+- name: Enable sites/default-eduroam
   file: >
-    src=/etc/freeradius/sites-available/eduroam 
-    dest=/etc/freeradius/sites-enabled/eduroam
+    src=/etc/freeradius/sites-available/default-eduroam 
+    dest=/etc/freeradius/sites-enabled/default-eduroam
     state=link 
   notify: restart freeradius
 
-- name: Copy sites/eduroam_inner_tunnel
+- name: Copy sites/inner-tunnel-eduroam
   template: > 
-    src=sites-eduroam_inner_tunnel.j2 
-    dest=/etc/freeradius/sites-available/eduroam_inner_tunnel
+    src=sites_inner-tunnel-eduroam.j2 
+    dest=/etc/freeradius/sites-available/inner-tunnel-eduroam
   notify: restart freeradius
 
-- name: Enable sites/eduroam_inner_tunnel
+- name: Enable sites/inner-tunnel-eduroam
   file: >
-    src=/etc/freeradius/sites-available/eduroam_inner_tunnel 
-    dest=/etc/freeradius/sites-enabled/eduroam_inner_tunnel
+    src=/etc/freeradius/sites-available/inner-tunnel-eduroam 
+    dest=/etc/freeradius/sites-enabled/inner-tunnel-eduroam
     state=link
   notify: restart freeradius
-    
+
+
+- name: Copy private key
+  copy: > 
+    src={{ domain }}.key 
+    dest=/etc/ssl/private/{{ domain }}.key
+    owner=root
+    group=ssl-cert
+    mode=0640
+    backup=yes
+  notify: restart freeradius
+
+- name: Link private key
+  file: > 
+    src=/etc/ssl/private/{{ domain }}.key 
+    dest=/etc/freeradius/certs/{{ domain }}.key
+    state=link
+  notify: restart freeradius
+
+- name: Copy public key
+  copy: > 
+    src={{ domain }}.crt 
+    dest=/etc/ssl/certs/{{ domain }}.crt
+    backup=yes
+  notify: restart freeradius
+
+- name: Link public key
+  file: > 
+    src=/etc/ssl/certs/{{ domain }}.crt 
+    dest=/etc/freeradius/certs/{{ domain }}.crt
+    state=link
+  notify: restart freeradius

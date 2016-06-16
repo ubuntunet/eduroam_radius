@@ -20,7 +20,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ flr1_secret }}
+    secret: "{{ flr1_secret }}"
 
   -
     name: flra.eduroam.mw4
@@ -29,7 +29,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ flra_secret }}
+    secret: "{{ flra_secret }}"
 
   -
     name: Linksys
@@ -38,7 +38,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ linksys_secret }}
+    secret: "{{ linksys_secret }}"
 
   -
     name: TestLocal
@@ -47,7 +47,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ testlocal_secret }}
+    secret: "{{ testlocal_secret }}"
 
   -
     name: 127.0.0.1
@@ -56,4 +56,4 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ loopback_secret }}
+    secret: "{{ loopback_secret }}"

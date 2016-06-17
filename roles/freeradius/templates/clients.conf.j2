@@ -1,4 +1,5 @@
 {% for client in clients %}
+
 client {{ client.name }} {
   ipaddr                          = {{ client.ip4 }}
   netmask                         = {{ client.netmask }}

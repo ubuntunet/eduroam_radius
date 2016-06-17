@@ -22,7 +22,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret:  {{ flr_secret }}
+    secret:  "{{ flr_secret }}"
 
   -
     name: flra.eduroam.mw4
@@ -31,7 +31,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret:  {{ flr_secret }}
+    secret:  "{{ flr_secret }}"
 
   -
     name: TestMikrotik
@@ -40,4 +40,4 @@ clients:
     netmask: 24
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ test-mikrotik_secret}}
+    secret: "{{ test_mikrotik_secret }}"

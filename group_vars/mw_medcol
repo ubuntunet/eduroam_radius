@@ -5,7 +5,9 @@ test_user_name: test
 ldap_server: authsrv.medcol.mw
 ldap_identity: uid=zmposix,cn=appaccts,cn=zimbra
 ldap_base_dn: ou=people,dc=medcol,dc=mw
-ldap_filter: (uid=%{User-Name})
+ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+# How are user passwords saved in LDAP, used in ldap.attrmap
+ldap_user_password_type: Cleartext-Password
 
 default_netmask: 32
 default_nastype: other

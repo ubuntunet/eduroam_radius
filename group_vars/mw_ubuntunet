@@ -5,7 +5,9 @@ test_user_name: test
 ldap_server: ldap.ubuntunet.net
 ldap_identity: cn=Manager,dc=ubuntunet,dc=net
 ldap_base_dn: ou=people,dc=ubuntunet,dc=net
-ldap_filter: (uid=%{%{Stripped-User-Name}:-%{User-Name}})
+ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+# How are user passwords saved in LDAP, used in ldap.attrmap
+ldap_user_password_type: Cleartext-Password
 
 default_netmask: 32
 default_nastype: other

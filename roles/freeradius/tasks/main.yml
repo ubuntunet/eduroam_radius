@@ -32,6 +32,13 @@
     backup=yes
   notify: restart freeradius
 
+- name: Copy ldap attributemap
+  template: > 
+    src=ldap.attrmap.j2 
+    dest=/etc/freeradius/ldap.attrmap
+    backup=yes
+  notify: restart freeradius
+
 - name: Add test user
   template: > 
     src=users.j2 

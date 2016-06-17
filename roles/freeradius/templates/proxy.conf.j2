@@ -13,7 +13,7 @@ home_server {{ flr1_ip4_name }} {
         type                    = auth+acct
         ipaddr                  = {{ flr1_ip4 }}
         port                    = 1812
-        secret                  = {{ flr1_secret }}
+        secret                  = {{ flr_secret }}
         response_window         = 20
         zombie_period           = 40
         revive_interval         = 60
@@ -26,7 +26,7 @@ home_server {{ flr1_ip6_name }} {
        type                    = auth+acct
        ipv6addr                = {{ flr1_ip6 }}
        port                    = 1812
-       secret                  = {{ flr1_secret }}
+       secret                  = {{ flr_secret }}
        response_window         = 20
        zombie_period           = 40
        revive_interval         = 60
@@ -39,7 +39,7 @@ home_server {{ flra_ip4_name }} {
         type                    = auth+acct
         ipaddr                  = {{ flra_ip4 }}
         port                    = 1812
-        secret                  = {{ flra_secret }}
+        secret                  = {{ flr_secret }}
         response_window         = 20
         zombie_period           = 40
         revive_interval         = 60
@@ -52,7 +52,7 @@ home_server {{ flra_ip4_name }} {
 #        type                    = auth+acct
 #        ipv6addr                = {{ flra_ip6 }}
 #        port                    = 1812
-#        secret                  = {{ flra_secret }}
+#        secret                  = {{ flr_secret }}
 #        response_window         = 20
 #        zombie_period           = 40
 #        revive_interval         = 60

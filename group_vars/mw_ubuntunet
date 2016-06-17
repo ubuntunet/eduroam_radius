@@ -22,7 +22,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ flr1_secret }}"
+    secret: "{{ flr_secret }}"
 
   -
     name: flra.eduroam.mw4
@@ -31,7 +31,7 @@ clients:
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ flra_secret }}"
+    secret: "{{ flr_secret }}"
 
   -
     name: Linksys

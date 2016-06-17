@@ -12,6 +12,7 @@ ldap_user_password_type: Cleartext-Password
 default_netmask: 32
 default_nastype: other
 default_virtual_server: default-eduroam
+default_inner_tunnel: inner-tunnel-eduroam
 
 
 clients:

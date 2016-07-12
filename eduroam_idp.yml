@@ -6,6 +6,8 @@
     - group_vars/secrets.yml
   roles:
     - freeradius
+    - eapol_test
+    - newrelic
  
   handlers:
     - name: restart freeradius

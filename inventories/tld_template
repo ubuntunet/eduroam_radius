@@ -1,0 +1,13 @@
+domain ansible_ssh_host=1.2.3.2
+
+[eduroam_idp]
+domain
+
+[eduroam_idp:vars]
+ansible_user=ubuntu
+
+[idp]
+domain
+
+[tld_domain:children]
+idp

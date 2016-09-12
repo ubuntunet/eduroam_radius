@@ -1,0 +1,72 @@
+realm: example.net
+
+test_user_name: test
+
+ldap_server: ldap.example.net
+ldap_identity: cn=Manager,dc=example,dc=net
+ldap_base_dn: ou=people,dc=example,dc=net
+ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+# How are user passwords saved in LDAP, used in ldap.attrmap
+ldap_user_password_type: Cleartext-Password
+
+default_netmask: 32
+default_nastype: other
+default_virtual_server: default-eduroam
+default_inner_tunnel: inner-tunnel-eduroam
+
+clients:
+  -
+    name: TestSys
+    shortname: testsys
+    ip4: 1.2.3.4
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ linksys_secret }}"
+
+  -
+    name: TestLocal
+    shortname: test.local
+    ip4: My.Public.IP.Addresss
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ testlocal_secret }}"
+
+  -
+    name: 127.0.0.1
+    shortname: loopback
+    ip4: 127.0.0.1
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ loopback_secret }}"
+
+  -
+    name: DjNRO
+    shortname: djnro
+    ip4: 168.253.217.136
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ djnro_secret }}"
+
+  - 
+    name: flr1.eduroam.mw4
+    shortname: flr1.eduroam.mw4
+    ip4: 41.70.23.5
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ flr_secret }}"
+
+  -
+    name: flra.eduroam.mw4
+    shortname: flra.eduroam.mw4
+    ip4: 168.253.216.149
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ flr_secret }}"
+
+

@@ -2,12 +2,11 @@
   hosts: idp
   become: True
   vars_files:
-    - group_vars/maren
     - group_vars/secrets.yml
   roles:
     - freeradius
     - eapol_test
-    - newrelic
+    # - newrelic
  
   handlers:
     - name: restart freeradius

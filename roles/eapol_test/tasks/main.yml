@@ -20,13 +20,15 @@
         remote_src=true
 
 - name: Enable eapol_test
-  replace:  dest=/opt/wpa_supplicant-2.5/wpa_supplicant/.config
-            regexp='#CONFIG_EAPOL_TEST=y' 
-            replace='CONFIG_EAPOL_TEST=y'
+  replace: >
+    dest=/opt/wpa_supplicant-2.5/wpa_supplicant/.config
+    regexp='#CONFIG_EAPOL_TEST=y' 
+    replace='CONFIG_EAPOL_TEST=y'
 
 - name: Compile the stuff
-  make: chdir=/opt/wpa_supplicant-2.5/wpa_supplicant
-        target=eapol_test
+  make: target=eapol_test
+        chdir=/opt/wpa_supplicant-2.5/wpa_supplicant
+        
 
 - name: Move eapol_test bin
   copy: dest=/usr/local/bin/eapol_test

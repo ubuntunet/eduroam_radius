@@ -4,7 +4,7 @@ medcol ansible_ssh_host=41.70.24.6
 medcol
 
 [eduroam_idp:vars]
-ansible_user=dngauma
+ansible_ssh_user=dngauma
 
 [mw_medcol:children]
 idp

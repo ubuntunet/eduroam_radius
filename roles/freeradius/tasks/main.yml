@@ -75,8 +75,8 @@
 
 - name: Copy private key
   copy: > 
-    src={{ domain }}.key 
-    dest=/etc/ssl/private/{{ domain }}.key
+    src={{ realm }}.key 
+    dest=/etc/ssl/private/{{ realm }}.key
     owner=root
     group=ssl-cert
     mode=0640
@@ -85,21 +85,21 @@
 
 - name: Link private key
   file: > 
-    src=/etc/ssl/private/{{ domain }}.key 
-    dest=/etc/freeradius/certs/{{ domain }}.key
+    src=/etc/ssl/private/{{ realm }}.key 
+    dest=/etc/freeradius/certs/{{ realm }}.key
     state=link
   notify: restart freeradius
 
 - name: Copy public key
   copy: > 
-    src={{ domain }}.crt 
-    dest=/etc/ssl/certs/{{ domain }}.crt
+    src={{ realm }}.crt 
+    dest=/etc/ssl/certs/{{ realm }}.crt
     backup=yes
   notify: restart freeradius
 
 - name: Link public key
   file: > 
-    src=/etc/ssl/certs/{{ domain }}.crt 
-    dest=/etc/freeradius/certs/{{ domain }}.crt
+    src=/etc/ssl/certs/{{ realm }}.crt 
+    dest=/etc/freeradius/certs/{{ realm }}.crt
     state=link
   notify: restart freeradius

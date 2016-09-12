@@ -1,0 +1,59 @@
+# Ansible Playbook for an eduroam IdP/Radius server
+
+
+## Provisioning
+
+* Clone the repository from Github
+
+Use SSH
+```
+git clone git@github.com:ubuntunet/eduroam_idp.git
+```
+
+Use HTTPS
+```
+git clone https://github.com/ubuntunet/eduroam_idp.git
+```
+
+* Change into the newly created directory
+
+```cd eduroam_idp```
+
+* Copy the inventory template
+
+```
+cp inventories/tld_domain inventories/<net_example>
+
+```[tld_domain:children]```
+
+* Open your new inventory and replace domain and tld_domain with your actual domain <example> and tld_domain <net_example> (as used in the command above ) in the second last line
+
+* Copy the group_vars template
+
+```
+cp group_vars/tld_domain group_vars/<net_example>
+```
+
+* Adopt the variables in group_vars/<net_example> to your liking
+
+* Create the secret.yml file that contains your sensitive information. Add your credentials as appropriate.
+
+```
+cp group_vars/secrets.yml.example group_vars/secrets.yml
+```
+
+* Run the playbook. Whenever you change something in the playbook, you need to re-run this command.
+
+```
+ansible-playbook -i inventories/<net.example> eduroam_idp.yml
+```
+
+
+## How do I add a new client?
+
+* Copy/Paste the client entry TestSys in your group_vars file
+* Change the name and the variable values
+* Add the shared_secret to secrets.yml
+* Re-run the playbook
+
+

@@ -1,4 +1,4 @@
-kcn ansible_ssh_host=168.253.217.77
+kcn ansible_ssh_host=41.70.64.12
 
 [eduroam_idp]
 kcn

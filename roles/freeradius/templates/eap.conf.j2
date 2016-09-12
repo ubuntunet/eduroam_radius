@@ -156,7 +156,7 @@
       cadir = ${confdir}/certs
 
       private_key_password = whatever
-      private_key_file = ${certdir}/{{ domain }}.key
+      private_key_file = ${certdir}/{{ realm }}.key
 
       #  If Private key & Certificate are located in
       #  the same file, then private_key_file &
@@ -168,7 +168,7 @@
       #  only the server certificate, but ALSO all
       #  of the CA certificates used to sign the
       #  server certificate.
-      certificate_file = ${certdir}/{{ domain }}.crt
+      certificate_file = ${certdir}/{{ realm }}.crt
 
       #  Trusted Root CA list
       #

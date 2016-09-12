@@ -1,4 +1,4 @@
-domain: kcn.mw
+realm: kcn.mw
 
 test_user_name: test
 
@@ -17,18 +17,18 @@ default_inner_tunnel: inner-tunnel-eduroam
 clients:
 
   -
-    name: Linksys
-    shortname: linksys
-    ip4: 41.216.228.242
+    name: DjNRO
+    shortname: djnro
+    ip4: 168.253.217.136
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: {{ linksys_secret }}
+    secret: "{{ djnro_secret }}"
 
   -
     name: TestLocal
     shortname: test.local
-    ip4: 168.253.217.77
+    ip4: 41.70.64.12
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"

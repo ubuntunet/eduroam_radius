@@ -9,9 +9,9 @@ proxy server {
 
 #<!-- The configuration file also needs to have defined home_server entries. They are the counterpart to the client stanzas from above: other RADIUS servers with their IP addresses and shared secrets. Two such example stanzas (for FTLR proxying of unknown realms) are included here.--!>
 
-home_server {{ flr1_ip4_name }} {
+home_server {{ flr1.ip4_name }} {
         type                    = auth+acct
-        ipaddr                  = {{ flr1_ip4 }}
+        ipaddr                  = {{ flr1.ip4 }}
         port                    = 1812
         secret                  = {{ flr_secret }}
         response_window         = 20
@@ -22,9 +22,9 @@ home_server {{ flr1_ip4_name }} {
         num_answers_to_alive    = 3
 }
 
-home_server {{ flr1_ip6_name }} {
+home_server {{ flr1.ip6_name }} {
        type                    = auth+acct
-       ipv6addr                = {{ flr1_ip6 }}
+       ipv6addr                = {{ flr1.ip6 }}
        port                    = 1812
        secret                  = {{ flr_secret }}
        response_window         = 20
@@ -35,9 +35,9 @@ home_server {{ flr1_ip6_name }} {
        num_answers_to_alive    = 3
 }
 
-home_server {{ flra_ip4_name }} {
+home_server {{ flra.ip4_name }} {
         type                    = auth+acct
-        ipaddr                  = {{ flra_ip4 }}
+        ipaddr                  = {{ flra.ip4 }}
         port                    = 1812
         secret                  = {{ flr_secret }}
         response_window         = 20
@@ -48,9 +48,9 @@ home_server {{ flra_ip4_name }} {
         num_answers_to_alive    = 3
 }
 
-#home_server {{ flra_ip6_name }} {
+#home_server {{ flra.ip6_name }} {
 #        type                    = auth+acct
-#        ipv6addr                = {{ flra_ip6 }}
+#        ipv6addr                = {{ flra.ip6 }}
 #        port                    = 1812
 #        secret                  = {{ flr_secret }}
 #        response_window         = 20
@@ -71,10 +71,10 @@ home_server {{ flra_ip4_name }} {
 
 home_server_pool EDUROAM-FTLR {
         type                    = fail-over
-        home_server             = {{ flr1_ip4_name }}
-        home_server             = {{ flr1_ip6_name }}
-        home_server             = {{ flra_ip4_name }}
-        # home_server             = {{ flra_ip6_name }}
+        home_server             = {{ flr1.ip4_name }}
+        home_server             = {{ flr1.ip6_name }}
+        home_server             = {{ flra.ip4_name }}
+        # home_server             = {{ flra.ip6_name }}
 }
 
 

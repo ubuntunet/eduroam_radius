@@ -11,3 +11,36 @@ client {{ client.name }} {
 }
 
 {% endfor %}
+
+
+# Entries for the Federation Level Radius Servers
+client {{ flr1.name }} {
+  ipaddr                          = {{ flr1.ip4 }}
+  netmask                         = {{ flr1.netmask }}
+  secret                          = {{ flr1.secret }}
+  require_message_authenticator   = no
+  shortname                       = {{ flr1.shortname }}
+  nastype                         = {{ flr1.nastype }}
+  virtual_server                  = {{ flr1.virtual_server }}
+}
+
+client {{ flra.name }} {
+  ipaddr                          = {{ flra.ip4 }}
+  netmask                         = {{ flra.netmask }}
+  secret                          = {{ flra.secret }}
+  require_message_authenticator   = no
+  shortname                       = {{ flra.shortname }}
+  nastype                         = {{ flra.nastype }}
+  virtual_server                  = {{ flra.virtual_server }}
+}
+
+# Entry for the National Roaming Operator Application
+client {{ djnro.name }} {
+  ipaddr                          = {{ djnro.ip4 }}
+  netmask                         = {{ djnro.netmask }}
+  secret                          = {{ djnro.secret }}
+  require_message_authenticator   = no
+  shortname                       = {{ djnro.shortname }}
+  nastype                         = {{ djnro.nastype }}
+  virtual_server                  = {{ djnro.virtual_server }}
+}

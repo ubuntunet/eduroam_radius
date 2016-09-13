@@ -18,7 +18,7 @@ clients:
   -
     name: TestSys
     shortname: testsys
-    ip4: 1.2.3.9
+    ip4: 1.2.3.4
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
@@ -45,8 +45,8 @@ clients:
 
 flr1_name: flr1.eduroam
 flr1:
-  ip4: 1.2.3.4
-  ip6: 2002:0000:1802:b:0000:66ff:0000:ce58
+  ip4: 41.70.23.5
+  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
   name: "{{ flr1_name }}"
   shortname: "{{ flr1_name }}"
@@ -59,8 +59,8 @@ flr1:
 
 flra_name: flra.eduroam
 flra:
-  ip4: 4.3.2.1
-  ip6: 2002:0000:0000:b:ca1f:66ff:feb9:0000
+  ip4: 168.253.216.149
+  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
   name: "{{ flra_name }}"
   shortname: "{{ flra_name }}"
@@ -75,7 +75,7 @@ flra:
 djnro:
   name: DjNRO
   shortname: djnro
-  ip4: 5.6.7.8
+  ip4: 168.253.217.136
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"

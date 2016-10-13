@@ -1,0 +1,13 @@
+poly ansible_ssh_host=41.77.11.147
+
+[eduroam_idp]
+poly
+
+[eduroam_idp:vars]
+ansible_user=smisv1
+
+[idp]
+poly
+
+[mw_poly:children]
+idp

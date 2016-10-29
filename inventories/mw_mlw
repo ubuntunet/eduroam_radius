@@ -1,0 +1,13 @@
+mlw ansible_ssh_host=10.137.17.203
+
+[eduroam_idp]
+mlw
+
+[eduroam_idp:vars]
+ansible_ssh_user=eduroam2
+
+[mw_mlw:children]
+idp
+
+[idp]
+mlw

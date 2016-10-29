@@ -1,13 +1,10 @@
-ubuntunet ansible_ssh_host=168.253.217.77
+radius ansible_host=168.253.217.77
 
-[eduroam_idp]
-ubuntunet
-
-[eduroam_idp:vars]
+[idp:vars]
 ansible_user=ubuntu
 
 [idp]
-ubuntunet
+radius
 
-[mw_ubuntunet:children]
-idp
+[mw_ubuntunet]
+radius

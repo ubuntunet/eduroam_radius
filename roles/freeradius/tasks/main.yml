@@ -31,6 +31,7 @@
     dest=/etc/freeradius/modules/ldap
     backup=yes
   notify: restart freeradius
+  when: ldap.enabled == True
 
 - name: Copy ldap attributemap
   template: > 
@@ -38,6 +39,7 @@
     dest=/etc/freeradius/ldap.attrmap
     backup=yes
   notify: restart freeradius
+  when: ldap.enabled == True
 
 - name: Add test user
   template: > 
@@ -45,6 +47,7 @@
     dest=/etc/freeradius/users
     backup=yes
   notify: restart freeradius
+  when: file.enabled == True
 
 - name: Copy sites/default-eduroam
   template: > 
@@ -72,34 +75,38 @@
     state=link
   notify: restart freeradius
 
-
-- name: Copy private key
-  copy: > 
-    src={{ realm }}.key 
-    dest=/etc/ssl/private/{{ realm }}.key
-    owner=root
-    group=ssl-cert
-    mode=0640
-    backup=yes
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 -subj "/C={{ country_code }}/L={{ city }}/O={{ organisation }}/CN={{ realm }}" -days 3650 -keyout /etc/freeradius/certs/{{ realm }}.key -out /etc/freeradius/certs/{{ realm }}.crt -extensions v3_ca creates=/etc/freeradius/certs/{{ realm }}.crt
   notify: restart freeradius
 
-- name: Link private key
-  file: > 
-    src=/etc/ssl/private/{{ realm }}.key 
-    dest=/etc/freeradius/certs/{{ realm }}.key
-    state=link
-  notify: restart freeradius
+# - name: Copy private key
+#   copy: > 
+#     src={{ realm }}.key 
+#     dest=/etc/ssl/private/{{ realm }}.key
+#     owner=root
+#     group=ssl-cert
+#     mode=0640
+#     backup=yes
+#   notify: restart freeradius
 
-- name: Copy public key
-  copy: > 
-    src={{ realm }}.crt 
-    dest=/etc/ssl/certs/{{ realm }}.crt
-    backup=yes
-  notify: restart freeradius
 
-- name: Link public key
-  file: > 
-    src=/etc/ssl/certs/{{ realm }}.crt 
-    dest=/etc/freeradius/certs/{{ realm }}.crt
-    state=link
-  notify: restart freeradius
+# - name: Link private key
+#   file: > 
+#     src=/etc/ssl/private/{{ realm }}.key 
+#     dest=/etc/freeradius/certs/{{ realm }}.key
+#     state=link
+#   notify: restart freeradius
+
+# - name: Copy public key
+#   copy: > 
+#     src={{ realm }}.crt 
+#     dest=/etc/ssl/certs/{{ realm }}.pem
+#     backup=yes
+#   notify: restart freeradius
+
+# - name: Link public key
+#   file: > 
+#     src=/etc/ssl/certs/{{ realm }}.pem 
+#     dest=/etc/freeradius/certs/{{ realm }}.crt
+#     state=link
+#   notify: restart freeradius

@@ -2,12 +2,29 @@ realm: medcol.mw
 
 test_user_name: test
 
-ldap_server: authsrv.medcol.mw
-ldap_identity: uid=zmposix,cn=appaccts,cn=zimbra
-ldap_base_dn: ou=people,dc=medcol,dc=mw
-ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-# How are user passwords saved in LDAP, used in ldap.attrmap
-ldap_user_password_type: Cleartext-Password
+# LDAP Backend
+ldap
+  enabled: True
+  server: authsrv.medcol.mw
+  identity: uid=zmposix,cn=appaccts,cn=zimbra
+  base_dn: ou=people,dc=medcol,dc=mw
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
+
 
 default_netmask: 32
 default_nastype: other
@@ -24,6 +41,24 @@ clients:
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
     secret: "{{ test_mikrotik_secret }}"
+
+  -
+    name: TestLocal
+    shortname: test.local
+    ip4: 41.70.24.6
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ testlocal_secret }}"
+
+  -
+    name: 127.0.0.1
+    shortname: loopback
+    ip4: 127.0.0.1
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ loopback_secret }}"
 
 
 flr1_name: flr1.eduroam

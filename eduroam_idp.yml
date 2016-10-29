@@ -5,9 +5,9 @@
     - group_vars/secrets.yml
   roles:
     - freeradius
-    - eapol_test
-    # - newrelic
- 
+    - { role: eapol_test, when: play_eapol == True }
+    - { role: newrelic, when: play_newrelic == True }
+    
   handlers:
     - name: restart freeradius
       service: name=freeradius state=restarted

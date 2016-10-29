@@ -11,8 +11,8 @@ country_code: ME
 ldap:
   enabled: False
   server: ldap.eduroam.me
-  identity: cn=Manager,dc=uni-chris,dc=me
-  base_dn: ou=people,dc=uni-chris,dc=me
+  identity: cn=Manager,dc=eduroam,dc=me
+  base_dn: ou=people,dc=eduroam,dc=me
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password

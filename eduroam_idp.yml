@@ -1,10 +1,23 @@
+- name: Make sure Python2 is available
+  hosts: idp
+  become: True
+  gather_facts: False
+  tasks:
+    #- raw: test -e /usr/bin/python || (apt install -y python-minimal)
+    - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
 - name: Install eduroam Identity Provider
   hosts: idp
   become: True
+  gather_facts: True
   vars_files:
     - group_vars/secrets.yml
   roles:
     - freeradius
+    # - role: jdauphant.ssl-certs
+    #   #ssl_certs_common_name: "{{ realm }}"
+    #   ssl_certs_local_privkey_path: "/etc/freeradius/certs/{{ realm }}.key"
+    #   ssl_certs_local_cert_path: "/etc/freeradius/certs/{{ realm }}.pem"
     - { role: eapol_test, when: play_eapol == True }
     - { role: newrelic, when: play_newrelic == True }
     

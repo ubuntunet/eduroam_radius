@@ -6,5 +6,5 @@ ansible_user=ubuntu
 [idp]
 radius
 
-[me_uni_chris:children]
+[me_chris:children]
 idp

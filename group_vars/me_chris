@@ -111,7 +111,7 @@ default_inner_tunnel: inner-tunnel-eduroam
 ### Additional Roles ###
 
 # Role for testing Radius IdP functionality
-play_eapol: False
+play_eapol: True
 # Role for monitoring Radius server with NewRelic
 play_newrelic: False
 

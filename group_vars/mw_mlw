@@ -1,6 +1,9 @@
 realm: mlw.medcol.mw
 
-test_user_name: test
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
 # LDAP Backend
 ldap:

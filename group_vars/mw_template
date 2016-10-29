@@ -9,7 +9,7 @@ country_code: MW
 
 # LDAP Backend
 ldap:
-  enable: True
+  enabled: True
   server: ldap.example.mw
   identity: cn=Manager,dc=example,dc=mw
   base_dn: ou=people,dc=example,dc=mw
@@ -25,8 +25,10 @@ sql:
   port: 5432
   user: radius
 
-# Static
-test_user_name: test
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
 
 ### Access Points & National Roaming Operators ###
@@ -41,7 +43,7 @@ country_code: MW
 
 # LDAP Backend
 ldap:
-  enable: True
+  enabled: True
   server: ldap.example.net
   identity: cn=Manager,dc=example,dc=net
   base_dn: ou=people,dc=example,dc=net
@@ -57,8 +59,10 @@ sql:
   port: 5432
   user: radius
 
-# Static
-test_user_name: test
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
 
 ### Access Points & National Roaming Operators ###

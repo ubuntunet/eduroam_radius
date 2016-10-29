@@ -1,19 +1,34 @@
 realm: poly.ac.mw
 
-test_user_name: test
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
-ldap_server: ldap.ubuntunet.net
-ldap_identity: cn=Manager,dc=ubuntunet,dc=net
-ldap_base_dn: ou=people,dc=ubuntunet,dc=net
-ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-# How are user passwords saved in LDAP, used in ldap.attrmap
-ldap_user_password_type: Cleartext-Password
+# LDAP Backend
+ldap:
+  enabled: False
+  server: ldap.ubuntunet.net
+  identity: cn=Manager,dc=ubuntunet,dc=net
+  base_dn: ou=people,dc=ubuntunet,dc=net
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
 
-# Choose either mysql or postgresql
-db_type: postgresql
-db_server: localhost
-db_port: 5432
-db_user: radius
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: True
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
+
+
 
 default_netmask: 32
 default_nastype: other
@@ -24,7 +39,8 @@ clients:
   -
     name: TestLocal
     shortname: test.local
-    ip4: 41.77.11.147
+    ip4: 10.10.50.153
+    #ip4: 41.77.11.147
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
@@ -37,7 +53,14 @@ clients:
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
     secret: "{{ loopback_secret }}"
-
+  -
+    name: Azuretec
+    shortname: azuretec
+    ip4: 10.10.48.143
+    netmask: "{{ default_netmask }}"
+    nastype: "{{ default_nastype }}"
+    virtual_server: "{{ default_virtual_server }}"
+    secret: "{{ azuretec_secret }}"
 
 flr1_name: flr1.eduroam
 flr1:

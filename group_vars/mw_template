@@ -1,19 +1,71 @@
+realm: example.mw
+
+organisation: Example University
+city: Blantyre
+country_code: MW
+
+
+### Backends ###
+
+# LDAP Backend
+ldap:
+  enabled: True
+  server: ldap.example.mw
+  identity: cn=Manager,dc=example,dc=mw
+  base_dn: ou=people,dc=example,dc=mw
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
+
+### Access Points & National Roaming Operators ###
 realm: example.net
 
-test_user_name: test
+organisation: Example University
+city: Testville
+country_code: MW
 
-ldap_server: ldap.example.net
-ldap_identity: cn=Manager,dc=example,dc=net
-ldap_base_dn: ou=people,dc=example,dc=net
-ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-# How are user passwords saved in LDAP, used in ldap.attrmap
-ldap_user_password_type: Cleartext-Password
 
-default_netmask: 32
-default_nastype: other
-default_virtual_server: default-eduroam
-default_inner_tunnel: inner-tunnel-eduroam
+### Backends ###
 
+# LDAP Backend
+ldap:
+  enabled: True
+  server: ldap.example.net
+  identity: cn=Manager,dc=example,dc=net
+  base_dn: ou=people,dc=example,dc=net
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
+
+### Access Points & National Roaming Operators ###
 clients:
   -
     name: TestSys
@@ -81,5 +133,17 @@ djnro:
   virtual_server: "{{ default_virtual_server }}"
   secret: "{{ djnro_secret }}"
 
+default_netmask: 32
+default_nastype: other
+default_virtual_server: default-eduroam
+default_inner_tunnel: inner-tunnel-eduroam
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
 
 

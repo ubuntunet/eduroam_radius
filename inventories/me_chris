@@ -1,0 +1,10 @@
+radius ansible_host=168.253.217.18
+
+[idp:vars]
+ansible_user=ubuntu
+
+[idp]
+radius
+
+[me_chris:children]
+idp

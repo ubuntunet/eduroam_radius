@@ -1,19 +1,22 @@
-realm: medcol.mw
+realm: chris.eduroam.me
 
-# Static File
-file:
-  enabled: True
-  test_user_name: test
+organisation: UniChris
+city: Lilongwe
+country_code: ME
+
+
+### Backends ###
 
 # LDAP Backend
-ldap
-  enabled: True
-  server: authsrv.medcol.mw
-  identity: uid=zmposix,cn=appaccts,cn=zimbra
-  base_dn: ou=people,dc=medcol,dc=mw
+ldap:
+  enabled: False
+  server: ldap.eduroam.me
+  identity: cn=Manager,dc=uni-chris,dc=me
+  base_dn: ou=people,dc=uni-chris,dc=me
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
+
 
 # SQL Backend (mysql or postgresql)
 sql:
@@ -23,32 +26,28 @@ sql:
   port: 5432
   user: radius
 
-# Role for testing Radius IdP functionality
-play_eapol: False
-# Role for monitoring Radius server with NewRelic
-play_newrelic: False
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
 
-default_netmask: 32
-default_nastype: other
-default_virtual_server: default-eduroam
-default_inner_tunnel: inner-tunnel-eduroam
-
+### Access Points & National Roaming Operators ###
 
 clients:
   -
-    name: TestMikrotik
-    shortname: test-mikrotik
-    ip4: 41.70.24.0
-    netmask: 24
+    name: TestSys
+    shortname: testsys
+    ip4: 1.2.3.4
+    netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ test_mikrotik_secret }}"
+    secret: "{{ linksys_secret }}"
 
   -
     name: TestLocal
     shortname: test.local
-    ip4: 41.70.24.6
+    ip4: "{{ ansible_host }}"
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
@@ -101,3 +100,20 @@ djnro:
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"
   secret: "{{ djnro_secret }}"
+
+
+default_netmask: 32
+default_nastype: other
+default_virtual_server: default-eduroam
+default_inner_tunnel: inner-tunnel-eduroam
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: True
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
+
+
+

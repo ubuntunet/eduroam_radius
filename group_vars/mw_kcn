@@ -1,13 +1,33 @@
 realm: kcn.mw
 
-test_user_name: test
+# Static File
+file:
+  enabled: True
+  test_user_name: test
 
-ldap_server: ldap.ubuntunet.net
-ldap_identity: cn=Manager,dc=ubuntunet,dc=net
-ldap_base_dn: ou=people,dc=ubuntunet,dc=net
-ldap_filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-# How are user passwords saved in LDAP, used in ldap.attrmap
-ldap_user_password_type: Cleartext-Password
+# LDAP Backend
+ldap:
+  enabled: True
+  server: ldap.ubuntunet.net
+  identity: cn=Manager,dc=ubuntunet,dc=net
+  base_dn: ou=people,dc=ubuntunet,dc=net
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False
+
 
 default_netmask: 32
 default_nastype: other

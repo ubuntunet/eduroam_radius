@@ -194,7 +194,9 @@ authorize {
   #
   #  The ldap module will set Auth-Type to LDAP if it has not
   #  already been set
-  ldap
+  #ldap
+  {% if ldap.enabled == True %}ldap{% endif %}
+
 
   #
   #  Enforce daily limits on time spent logged in.
@@ -309,9 +311,11 @@ authenticate {
   # Note that this means "check plain-text password against
   # the ldap database", which means that EAP won't work,
   # as it does not supply a plain-text password.
+  {% if ldap.enabled == True %}
   Auth-Type LDAP {
     ldap
   }
+  {% endif %}
 
   #
   #  Allow EAP authentication.

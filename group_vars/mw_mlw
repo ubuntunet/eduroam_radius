@@ -1,4 +1,4 @@
-realm: medcol.mw
+realm: mlw.medcol.mw
 
 # Static File
 file:
@@ -6,11 +6,11 @@ file:
   test_user_name: test
 
 # LDAP Backend
-ldap
-  enabled: True
-  server: authsrv.medcol.mw
-  identity: uid=zmposix,cn=appaccts,cn=zimbra
-  base_dn: ou=people,dc=medcol,dc=mw
+ldap:
+  enabled: False
+  server: ldap.ubuntunet.net
+  identity: cn=Manager,dc=ubuntunet,dc=net
+  base_dn: ou=people,dc=ubuntunet,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
@@ -34,21 +34,20 @@ default_nastype: other
 default_virtual_server: default-eduroam
 default_inner_tunnel: inner-tunnel-eduroam
 
-
 clients:
   -
-    name: TestMikrotik
-    shortname: test-mikrotik
-    ip4: 41.70.24.0
-    netmask: 24
+    name: TestLocalInternal
+    shortname: test.local
+    ip4: 10.137.17.203
+    netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ test_mikrotik_secret }}"
+    secret: "{{ testlocal_secret }}"
 
   -
-    name: TestLocal
+    name: TestLocalExternal
     shortname: test.local
-    ip4: 41.70.24.6
+    ip4: 41.77.11.187
     netmask: "{{ default_netmask }}"
     nastype: "{{ default_nastype }}"
     virtual_server: "{{ default_virtual_server }}"

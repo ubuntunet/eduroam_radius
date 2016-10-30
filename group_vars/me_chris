@@ -9,10 +9,10 @@ country_code: ME
 
 # LDAP Backend
 ldap:
-  enabled: False
+  enabled: True
   server: ldap.eduroam.me
-  identity: cn=Manager,dc=eduroam,dc=me
-  base_dn: ou=people,dc=eduroam,dc=me
+  identity: cn=Manager,dc=ldap,dc=me
+  base_dn: ou=people,dc=ldap,dc=me
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP
   user_password_type: Cleartext-Password
@@ -96,6 +96,6 @@ djnro:
 ### Additional Roles ###
 
 # Role for testing Radius IdP functionality
-play_eapol: True
+play_eapol: False
 # Role for monitoring Radius server with NewRelic
 play_newrelic: False

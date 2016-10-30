@@ -9,57 +9,36 @@ proxy server {
 
 #<!-- The configuration file also needs to have defined home_server entries. They are the counterpart to the client stanzas from above: other RADIUS servers with their IP addresses and shared secrets. Two such example stanzas (for FTLR proxying of unknown realms) are included here.--!>
 
-home_server {{ flr1.ip4_name }} {
-        type                    = auth+acct
-        ipaddr                  = {{ flr1.ip4 }}
-        port                    = 1812
-        secret                  = {{ flr_secret }}
-        response_window         = 20
-        zombie_period           = 40
-        revive_interval         = 60
-        status_check            = status-server
-        check_interval          = 30
-        num_answers_to_alive    = 3
-}
+{% for flr in flrs %}
 
-home_server {{ flr1.ip6_name }} {
-       type                    = auth+acct
-       ipv6addr                = {{ flr1.ip6 }}
-       port                    = 1812
-       secret                  = {{ flr_secret }}
-       response_window         = 20
-       zombie_period           = 40
-       revive_interval         = 60
-       status_check            = status-server
-       check_interval          = 30
-       num_answers_to_alive    = 3
-}
+  home_server {{ flr.name }}.mw4 {
+          type                    = auth+acct
+          ipaddr                  = {{ flr.ip4 }}
+          port                    = 1812
+          secret                  = {{ flr_secret }}
+          response_window         = 20
+          zombie_period           = 40
+          revive_interval         = 60
+          status_check            = status-server
+          check_interval          = 30
+          num_answers_to_alive    = 3
+  }
+  {% if flr.ipv6_enabled %}
+    home_server {{ flr.name }}.mw6 {
+           type                    = auth+acct
+           ipv6addr                = {{ flr.ip6 }}
+           port                    = 1812
+           secret                  = {{ flr_secret }}
+           response_window         = 20
+           zombie_period           = 40
+           revive_interval         = 60
+           status_check            = status-server
+           check_interval          = 30
+           num_answers_to_alive    = 3
+    }
+  {% endif %}
 
-home_server {{ flra.ip4_name }} {
-        type                    = auth+acct
-        ipaddr                  = {{ flra.ip4 }}
-        port                    = 1812
-        secret                  = {{ flr_secret }}
-        response_window         = 20
-        zombie_period           = 40
-        revive_interval         = 60
-        status_check            = status-server
-        check_interval          = 30
-        num_answers_to_alive    = 3
-}
-
-#home_server {{ flra.ip6_name }} {
-#        type                    = auth+acct
-#        ipv6addr                = {{ flra.ip6 }}
-#        port                    = 1812
-#        secret                  = {{ flr_secret }}
-#        response_window         = 20
-#        zombie_period           = 40
-#        revive_interval         = 60
-#        status_check            = status-server
-#        check_interval          = 30
-#        num_answers_to_alive    = 3
-#}
+{% endfor %}
 
 
 #<!-- The parameters response_window, zombie_period and revive_interval are tuning parameters and should initially remain untouched. Using status_check = status-server is recommended, but only if the server on the other end is configured to handle such Status-Server requests. This behaviour is configured  in radiusd.conf.--!>
@@ -71,10 +50,12 @@ home_server {{ flra.ip4_name }} {
 
 home_server_pool EDUROAM-FTLR {
         type                    = fail-over
-        home_server             = {{ flr1.ip4_name }}
-        home_server             = {{ flr1.ip6_name }}
-        home_server             = {{ flra.ip4_name }}
-        # home_server             = {{ flra.ip6_name }}
+    {% for flr in flrs %}
+        home_server             = {{ flr.name }}.mw4
+      {% if flr.ipv6_enabled %}
+        home_server             = {{ flr1.name }}.mw6
+      {% endif %}
+    {% endfor %}
 }
 
 

@@ -1,46 +1,43 @@
+# Access Points
+
 {% for client in clients %}
 
-client {{ client.name }} {
-  ipaddr                          = {{ client.ip4 }}
-  netmask                         = {{ client.netmask }}
-  secret                          = {{ client.secret }}
-  require_message_authenticator   = no
-  shortname                       = {{ client.shortname }}
-  nastype                         = {{ client.nastype }}
-  virtual_server                  = {{ client.virtual_server }}
-}
+  client {{ client.name }} {
+    ipaddr                          = {{ client.ip4 }}
+    netmask                         = {{ client.netmask|default(netmask) }}
+    secret                          = {{ client.secret }}
+    require_message_authenticator   = no
+    nastype                         = {{ client.nastype|default(nastype) }}
+    virtual_server                  = {{ client.virtual_server|default(virtual_server) }}
+  }
 
 {% endfor %}
 
 
-# Entries for the Federation Level Radius Servers
-client {{ flr1.name }} {
-  ipaddr                          = {{ flr1.ip4 }}
-  netmask                         = {{ flr1.netmask }}
-  secret                          = {{ flr1.secret }}
-  require_message_authenticator   = no
-  shortname                       = {{ flr1.shortname }}
-  nastype                         = {{ flr1.nastype }}
-  virtual_server                  = {{ flr1.virtual_server }}
-}
+# Entries for the Federation/National Level Radius Servers
 
-client {{ flra.name }} {
-  ipaddr                          = {{ flra.ip4 }}
-  netmask                         = {{ flra.netmask }}
-  secret                          = {{ flra.secret }}
-  require_message_authenticator   = no
-  shortname                       = {{ flra.shortname }}
-  nastype                         = {{ flra.nastype }}
-  virtual_server                  = {{ flra.virtual_server }}
-}
+{% for flr in flrs %}
 
-# Entry for the National Roaming Operator Application
-client {{ djnro.name }} {
-  ipaddr                          = {{ djnro.ip4 }}
-  netmask                         = {{ djnro.netmask }}
-  secret                          = {{ djnro.secret }}
-  require_message_authenticator   = no
-  shortname                       = {{ djnro.shortname }}
-  nastype                         = {{ djnro.nastype }}
-  virtual_server                  = {{ djnro.virtual_server }}
-}
+  client {{ flr.name }} {
+    ipaddr                          = {{ flr.ip4 }}
+    netmask                         = {{ flr.netmask|default(netmask) }}
+    secret                          = {{ flr.secret }}
+    require_message_authenticator   = no
+    shortname                       = {{ flr.shortname }}
+    nastype                         = {{ flr.nastype|default(nastype) }}
+    virtual_server                  = {{ flr.virtual_server|default(virtual_server) }}
+  }
+
+{% endfor %}
+
+
+# Entry for the Federation/National Registry
+  client {{ djnro.name }} {
+    ipaddr                          = {{ djnro.ip4 }}
+    secret                          = {{ djnro.secret }}
+    netmask                         = {{ djnro.netmask|default(netmask) }}
+    require_message_authenticator   = no
+    shortname                       = {{ djnro.shortname }}
+    nastype                         = {{ djnro.nastype|default(nastype) }}
+    virtual_server                  = {{ djnro.virtual_server|default(virtual_server) }}
+  }

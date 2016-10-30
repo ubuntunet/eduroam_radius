@@ -503,7 +503,7 @@
       #  the virtual server that processed the
       #  outer requests.
       #
-      virtual_server = "{{ default_inner_tunnel }}"
+      virtual_server = "{{ inner_tunnel }}"
 
       #  This has the same meaning as the
       #  same field in the "tls" module, above.
@@ -599,7 +599,7 @@
       #  the virtual server that processed the
       #  outer requests.
       #
-      virtual_server = "{{ default_inner_tunnel }}"
+      virtual_server = "{{ inner_tunnel }}"
 
       # This option enables support for MS-SoH
       # see doc/SoH.txt for more info.

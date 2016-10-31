@@ -7,6 +7,12 @@ country_code: MW
 
 ### Backends ###
 
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
+
 # LDAP Backend
 ldap:
   enabled: False
@@ -24,11 +30,6 @@ sql:
   server: localhost
   port: 5432
   user: radius
-
-# Static File
-file:
-  enabled: True
-  test_user_name: test
 
 
 ### Access Points & Localhost ###
@@ -71,7 +72,7 @@ flrs:
     shortname: flr1
     ip4: 168.253.217.71
     ipv6_enabled: False
-    ip6: 0:0:0:0:0:0:0:0
+    ip6:
     secret: "{{ flr_secret }}"
 
   # Second instance for Redundancy

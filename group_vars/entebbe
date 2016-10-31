@@ -1,0 +1,94 @@
+### Organisation ###
+
+realm: <myorg>.eduroam.me
+organisation: MyOrg
+city: Testville
+country_code: MW
+
+
+### Backends ###
+
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
+
+# LDAP Backend
+ldap:
+  enabled: False
+  server: ldap.example.net
+  identity: cn=Manager,dc=example,dc=net
+  base_dn: ou=people,dc=example,dc=net
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
+
+
+### Access Points & Localhost ###
+### Don't forget to set a matching secret in secrets.yml
+
+clients:
+  -
+    name: LocalLoopback
+    shortname: loopback
+    ip4: 127.0.0.1
+    secret: "{{ loopback_secret }}"
+
+  -
+    name: TestLocal
+    shortname: test.local
+    ip4: "{{ ansible_host }}"
+    secret: "{{ testlocal_secret }}"
+
+  -
+    name: TestAP
+    shortname: testap
+    ip4: 1.2.3.4
+    secret: "{{ testap_secret }}"
+
+  # -
+  #   name: TestAP with customized netmask and nastype
+  #   shortname: testap
+  #   ip4: 1.2.3.0
+  #   secret: "{{ linksys_secret }}"
+  #   netmask: "{{ default_netmask }}"
+  #   nastype: other
+
+
+
+### Federation/National Level Roaming Operators ###
+
+flrs:
+  -
+    name: flr1.eduroam
+    shortname: flr1
+    ip4: 168.253.217.71
+    ipv6_enabled: False
+    ip6:
+    secret: "{{ flr_secret }}"
+
+
+### Federation/National Level Registry ###
+
+djnro:
+  name: DjNRO
+  shortname: djnro
+  ip4: 168.253.217.136
+  secret: "{{ djnro_secret }}"
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False

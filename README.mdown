@@ -47,12 +47,23 @@ and check for an "Access-Accept" in the response.
 
         ansible radius -i inventories/<tld_institution> -a "radtest test mySecret localhost:1812 0 testing123"
 
+- Run the Freeradius service manually to see what is happening at the server side
+
+  - Log into your machine
+  - Stop the freeradius daemon
+
+            sudo service freeradius stop 
+  - Start it manually in debug mode
+
+            sudo freeradius -X
+
 ### Using eapol_test
 
 http://deployingradius.com/scripts/eapol_test/
 
 You need to enable the eapol_test role in your group_vars file and rerun the playbook first.
 
+WIP
 
 ## How to add a new client?
 

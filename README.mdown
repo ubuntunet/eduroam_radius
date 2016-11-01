@@ -1,65 +1,67 @@
 # Ansible Playbook for an eduroam IdP/Radius server
 
-
 ## Provisioning
 
-* Clone the repository from Github
+- Clone the repository from Github
 
-Use SSH
-```
-git clone git@github.com:ubuntunet/eduroam_idp.git
-```
+  - Use SSH
 
-Use HTTPS
-```
-git clone https://github.com/ubuntunet/eduroam_idp.git
-```
+        git clone git@github.com:ubuntunet/eduroam_idp.git
 
-* Change into the newly created directory
+  - Use HTTPS
 
-```cd eduroam_idp```
+        git clone https://github.com/ubuntunet/eduroam_idp.git
 
-* Copy the inventory template
+- Change into the newly created directory
 
-```
-cp inventories/tld_domain inventories/<net_example>
+        cd eduroam_idp
 
-```[tld_domain:children]```
-
-* Open your new inventory and replace domain and tld_domain with your actual domain <example> and tld_domain <net_example> (as used in the command above ) in the second last line
-
-* Copy the group_vars template
-
-```
-cp group_vars/tld_domain group_vars/<net_example>
-```
-
-* Adopt the variables in group_vars/<net_example> to your liking
-
-* Create the secret.yml file that contains your sensitive information. Add your credentials as appropriate.
-
-```
-cp group_vars/secrets.yml.example group_vars/secrets.yml
-```
-
-* Create certificate for your instance. <realm> needs to be identical to the value defined in your variables.
-
-```
-openssl req -x509 -nodes -days 1825 -newkey rsa:2048 -keyout roles/freeradius/files/<realm>.key -out roles/freeradius/files/<realm>.crt
-```
-
-* Run the playbook. Whenever you change something in the playbook, you need to re-run this command.
-
-```
-ansible-playbook -i inventories/<net.example> eduroam_idp.yml
-```
+- Copy the inventory template
 
 
-## How do I add a new client?
-
-* Copy/Paste the client entry TestSys in your group_vars file
-* Change the name and the variable values
-* Add the shared_secret to secrets.yml
-* Re-run the playbook
+        cp inventories/template inventories/<tld_institution>
 
 
+- Open your new inventory and replace 
+  - <FQDN or IP> with the actual URL/IP of your server
+  - <tld_institution> with your actual inventory file name
+
+- Copy the group_vars template
+
+        cp group_vars/template group_vars/<tld_institution>
+
+- Adopt the variables in group_vars/<tld_institution> to your liking
+
+- Create the secret.yml file that contains your sensitive information. Add your credentials.
+
+      cp group_vars/secrets.yml.example group_vars/secrets.yml
+
+- Run the playbook. Whenever you change something in the playbook, just replay this command.
+
+      ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml
+
+
+## How do I check if it works?
+
+### Using radtest
+
+        radtest [user] [password] localhost:[port (default is 1812)][nas-port-number(default 0)][shared_secret]
+
+and check for an "Access-Accept" in the response.
+
+- Run radtest remotely if you have enabled the static test user
+
+      ansible radius -i inventories/<tld_institution> -a "radtest test mySecret localhost:1812 0 testing123"
+
+### Using eapol_test
+
+You need to enable that role first and rerun the playbook.
+
+## How to add a new client?
+
+- Copy/Paste the client entry TestAP in your group_vars file
+- Change the name and the variable values
+- Add the shared_secret to secrets.yml
+- Re-run the playbook
+
+## What do the additional roles do?

@@ -1,6 +1,7 @@
-realm: example.net
+### Organisation ###
 
-organisation: Example University
+realm: <myorg>.eduroam.me
+organisation: MyOrg
 city: Testville
 country_code: MW
 
@@ -55,11 +56,11 @@ clients:
     secret: "{{ testap_secret }}"
 
   # -
-  #   name: TestAP with customized netmask
-  #   shortname: testap-netmask
+  #   name: TestAP with customized netmask and nastype
+  #   shortname: testap
   #   ip4: 1.2.3.0
   #   secret: "{{ linksys_secret }}"
-  #   netmask: 24
+  #   netmask: "{{ default_netmask }}"
   #   nastype: other
 
 
@@ -74,15 +75,6 @@ flrs:
     ipv6_enabled: False
     ip6:
     secret: "{{ flr_secret }}"
-
-  # Second instance for Redundancy
-  # -
-  #   name: flra.eduroam
-  #   shortname: flra
-  #   ip4: 168.253.217.72
-  #   ipv6_enabled: True
-  #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-  #   secret: "{{ flr_secret }}"
 
 
 ### Federation/National Level Registry ###

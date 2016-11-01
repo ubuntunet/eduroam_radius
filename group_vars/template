@@ -55,11 +55,11 @@ clients:
     secret: "{{ testap_secret }}"
 
   # -
-  #   name: TestAP with customized netmask and nastype
-  #   shortname: testap
+  #   name: TestAP with customized netmask
+  #   shortname: testap-netmask
   #   ip4: 1.2.3.0
   #   secret: "{{ linksys_secret }}"
-  #   netmask: "{{ default_netmask }}"
+  #   netmask: 24
   #   nastype: other
 
 

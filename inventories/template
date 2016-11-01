@@ -1,6 +1,6 @@
-radius ansible_host=<1.2.3.2>
+radius ansible_host=<FQDN or IP>
 
-[<INVENTORY_FILE_NAME>:children]
+[<tld_institution>:children]
 idp
 
 [idp]

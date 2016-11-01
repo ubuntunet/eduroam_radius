@@ -82,5 +82,5 @@
     -keyout /etc/freeradius/certs/{{ realm }}.key \
     -out /etc/freeradius/certs/{{ realm }}.crt \
     -extensions v3_ca \
-    creates: /etc/freeradius/certs/{{ realm }}.crt
+    creates=/etc/freeradius/certs/{{ realm }}.crt
   notify: restart freeradius

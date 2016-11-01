@@ -4,12 +4,6 @@
 
 - Clone the repository from Github
 
-  - Use SSH
-
-        git clone git@github.com:ubuntunet/eduroam_idp.git
-
-  - Use HTTPS
-
         git clone https://github.com/ubuntunet/eduroam_idp.git
 
 - Change into the newly created directory
@@ -34,11 +28,11 @@
 
 - Create the secret.yml file that contains your sensitive information. Add your credentials.
 
-      cp group_vars/secrets.yml.example group_vars/secrets.yml
+        cp group_vars/secrets.yml.example group_vars/secrets.yml
 
 - Run the playbook. Whenever you change something in the playbook, just replay this command.
 
-      ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml
+        ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml
 
 
 ## How do I check if it works?
@@ -51,11 +45,14 @@ and check for an "Access-Accept" in the response.
 
 - Run radtest remotely if you have enabled the static test user
 
-      ansible radius -i inventories/<tld_institution> -a "radtest test mySecret localhost:1812 0 testing123"
+        ansible radius -i inventories/<tld_institution> -a "radtest test mySecret localhost:1812 0 testing123"
 
 ### Using eapol_test
 
-You need to enable that role first and rerun the playbook.
+http://deployingradius.com/scripts/eapol_test/
+
+You need to enable the eapol_test role in your group_vars file and rerun the playbook first.
+
 
 ## How to add a new client?
 

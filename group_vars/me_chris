@@ -67,9 +67,9 @@ clients:
 
 flrs:
   -
-    name: flr1.eduroam
+    name: eduroam.ch
     shortname: flr1
-    ip4: 168.253.217.71
+    ip4: 168.253.217.110
     ipv6_enabled: False
     ip6: 0:0:0:0:0:0:0:0
     secret: "{{ flr_secret }}"

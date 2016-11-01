@@ -15,7 +15,8 @@
 - name: Link libnl library for 16.04
   file: 
     src: /lib/x86_64-linux-gnu/libnl-3.so 
-    dest: /lib/x86_64-linux-gnu/libnl.so state=link
+    dest: /lib/x86_64-linux-gnu/libnl.so 
+    state: link
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'
 
 - name: Download wpa_supplicant

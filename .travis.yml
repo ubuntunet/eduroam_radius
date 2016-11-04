@@ -1,0 +1,19 @@
+language: python
+python: '2.7'
+sudo: true
+addons:
+  apt:
+    packages:
+    - python-pip
+before_install:
+- openssl aes-256-cbc -K $encrypted_3723425d7017_key -iv $encrypted_3723425d7017_iv
+  -in secrets.yml.enc -out group_vars/secrets.yml -d
+install:
+- pip install ansible
+- ansible --version
+- printf '[defaults]\nroles_path=../' >ansible.cfg
+script:
+- ansible-playbook roaming_operator.yml -i inventories/development --syntax-check
+- ansible-playbook roaming_operator.yml -i inventories/development
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

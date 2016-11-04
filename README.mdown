@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ubuntunet/eduroam_idp.png?branch=master)](https://travis-ci.org/ubuntunet/eduroam_idp)
+
 # Ansible Playbook for an eduroam IdP/Radius server
 
 ## Provisioning

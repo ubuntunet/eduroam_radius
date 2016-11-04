@@ -13,7 +13,7 @@ install:
 - ansible --version
 - printf '[defaults]\nroles_path=../' >ansible.cfg
 script:
-- ansible-playbook roaming_operator.yml -i inventories/development --syntax-check
-- ansible-playbook roaming_operator.yml -i inventories/development
+- ansible-playbook eduroam_idp.yml -i inventories/development --syntax-check
+- ansible-playbook eduroam_idp.yml -i inventories/development
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

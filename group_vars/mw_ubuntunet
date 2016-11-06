@@ -4,9 +4,17 @@ organisation: UbuntuNet Alliance
 city: Lilongwe
 country_code: MW
 
-test_user_name: test
+
+### Backends ###
+
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
 
 # LDAP Backend
+ldap:
 ldap:
   enabled: True
   server: ldap.ubuntunet.net
@@ -24,80 +32,65 @@ sql:
   port: 5432
   user: radius
 
-# Role for testing Radius IdP functionality
-play_eapol: False
-# Role for monitoring Radius server with NewRelic
-play_newrelic: False
 
-
-default_netmask: 32
-default_nastype: other
-default_virtual_server: default-eduroam
-default_inner_tunnel: inner-tunnel-eduroam
+### Access Points & Localhost ###
+### Don't forget to set a matching secret in secrets.yml
 
 clients:
+
   -
-    name: Linksys
-    shortname: linksys
+    name: UniFiAP
+    shortname: unifi
     ip4: 41.216.228.242
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ linksys_secret }}"
+    secret: "{{ unifi_secret }}"
 
   -
     name: TestLocal
     shortname: test.local
     ip4: 168.253.217.77
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
     secret: "{{ testlocal_secret }}"
 
   -
-    name: 127.0.0.1
+    name: LocalLoopback
     shortname: loopback
     ip4: 127.0.0.1
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
     secret: "{{ loopback_secret }}"
 
 
-flr1_name: flr1.eduroam
-flr1:
-  ip4: 41.70.23.5
-  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
-  name: "{{ flr1_name }}"
-  shortname: "{{ flr1_name }}"
-  ip4_name: "{{ flr1_name }}.mw4"
-  ip6_name: "{{ flr1_name }}.mw6"
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+### Federation/National Level Roaming Operators ###
 
-flra_name: flra.eduroam
-flra:
-  ip4: 168.253.216.149
-  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+flrs:
+  -
+    name: flr1.eduroam
+    shortname: flr1
+    ip4: 41.70.23.5
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ flr_secret }}"
 
-  name: "{{ flra_name }}"
-  shortname: "{{ flra_name }}"
-  ip4_name: "{{ flra_name }}.mw4"
-  ip6_name: "{{ flra_name }}.mw6"
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+  # Second instance for Redundancy
+  -
+    name: flra.eduroam
+    shortname: flra
+    ip4: 168.253.216.149
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ flr_secret }}"
 
+
+### Federation/National Level Registry ###
 
 djnro:
   name: DjNRO
   shortname: djnro
   ip4: 168.253.217.136
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
   secret: "{{ djnro_secret }}"
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False

@@ -15,7 +15,6 @@ file:
 
 # LDAP Backend
 ldap:
-ldap:
   enabled: True
   server: ldap.ubuntunet.net
   identity: cn=Manager,dc=ubuntunet,dc=net

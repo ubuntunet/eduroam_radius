@@ -24,3 +24,15 @@
   handlers:
     - name: restart freeradius
       service: name=freeradius state=restarted
+
+
+# - name: Install NewRelic
+#   hosts: idp
+#   become: True
+#   roles:
+#     - { role: franklinkim.newrelic, when: play_newrelic == True }
+#   vars_files:
+#     - group_vars/secrets.yml
+#   vars:
+#     newrelic_service_state: started
+

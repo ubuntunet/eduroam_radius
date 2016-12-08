@@ -10,6 +10,7 @@ ldap
   enabled: True
   server: authsrv.medcol.mw
   identity: uid=zmposix,cn=appaccts,cn=zimbra
+  password: "{{ ldap_password_medcol }}"
   base_dn: ou=people,dc=medcol,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
@@ -76,7 +77,7 @@ flr1:
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+  secret: "{{ mw_flr_secret }}"
 
 flra_name: flra.eduroam
 flra:
@@ -90,7 +91,7 @@ flra:
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+  secret: "{{ mw_flr_secret }}"
 
 
 djnro:

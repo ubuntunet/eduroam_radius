@@ -4,6 +4,14 @@
     - freeradius
     - freeradius-ldap
 
+- name: Reduce Reject Delay
+  replace: 
+    dest: /etc/freeradius/radiusd.conf
+    regexp: 'reject_delay = 1' 
+    replace: 'reject_delay = 0'
+  notify: restart freeradius
+
+
 - name: Copy clients configuration
   template: > 
     src=clients.conf.j2 

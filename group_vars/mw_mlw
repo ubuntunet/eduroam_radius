@@ -75,7 +75,7 @@ flr1:
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+  secret: "{{ mw_flr_secret }}"
 
 flra_name: flra.eduroam
 flra:
@@ -89,7 +89,7 @@ flra:
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ flr_secret }}"
+  secret: "{{ mw_flr_secret }}"
 
 
 djnro:

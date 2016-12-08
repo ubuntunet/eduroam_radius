@@ -1,3 +1,0 @@
-[submodule "roles/newrelic"]
-	path = roles/newrelic
-	url = https://github.com/weareinteractive/ansible-newrelic.git

@@ -1,4 +1,4 @@
-realm: chris.eduroam.me
+realm: uni.me
 
 organisation: UniChris
 city: Lilongwe
@@ -10,11 +10,12 @@ country_code: ME
 # LDAP Backend
 ldap:
   enabled: True
-  server: ldap.eduroam.me
-  identity: cn=Manager,dc=ldap,dc=me
-  base_dn: ou=people,dc=ldap,dc=me
+  server: ldap.ubuntunet.net
+  identity: cn=Manager,dc=ubuntunet,dc=net
+  password: "{{ ldap_password_ubuntunet }}"
+  base_dn: ou=people,dc=ubuntunet,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-  # How are user passwords saved in LDAP
+  # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
 
 # SQL Backend (mysql or postgresql)
@@ -67,12 +68,12 @@ clients:
 
 flrs:
   -
-    name: eduroam.ch
+    name: eduroam.tg
     shortname: flr1
-    ip4: 168.253.217.110
+    ip4: 168.253.217.12
     ipv6_enabled: False
     ip6: 0:0:0:0:0:0:0:0
-    secret: "{{ flr_secret }}"
+    secret: "{{ me_flr_secret }}"
 
   # Second instance for Redundancy
   # -
@@ -81,7 +82,7 @@ flrs:
   #   ip4: 168.253.217.72
   #   ipv6_enabled: True
   #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-  #   secret: "{{ flr_secret }}"
+  #   secret: "{{ me_flr_secret }}"
 
 
 ### Federation/National Level Registry ###
@@ -96,6 +97,6 @@ djnro:
 ### Additional Roles ###
 
 # Role for testing Radius IdP functionality
-play_eapol: True
+play_eapol: False
 # Role for monitoring Radius server with NewRelic
 play_newrelic: False

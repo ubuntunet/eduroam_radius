@@ -18,6 +18,7 @@ ldap:
   enabled: False
   server: ldap.example.net
   identity: cn=Manager,dc=example,dc=net
+  password: "{{ ldap_password }}"
   base_dn: ou=people,dc=example,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP

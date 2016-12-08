@@ -68,9 +68,9 @@ clients:
 
 flrs:
   -
-    name: eduroam.tg
+    name: eduroam.me
     shortname: flr1
-    ip4: 168.253.217.12
+    ip4: 168.253.217.25
     ipv6_enabled: False
     ip6: 0:0:0:0:0:0:0:0
     secret: "{{ me_flr_secret }}"

@@ -1,0 +1,10 @@
+radius ansible_host=139.162.219.66
+
+[idp:vars]
+ansible_user=ubuntu
+
+[idp]
+radius
+
+[ml_maliren:children]
+idp

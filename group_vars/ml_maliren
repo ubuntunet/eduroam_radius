@@ -1,0 +1,102 @@
+realm: maliren.ml
+
+organisation: MaliREN
+city: Bamako
+country_code: ML
+
+
+### Backends ###
+
+# LDAP Backend
+ldap:
+  enabled: False
+  server: ldap.maliren.ml
+  identity: cn=Manager,dc=maliren,dc=ml
+  password: "{{ ldap_password_ubuntunet }}"
+  base_dn: ou=people,dc=maliren,dc=ml
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP, used in ldap.attrmap
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl 
+  server: localhost
+  port: 5432
+  user: radius
+
+# Static File
+file:
+  enabled: True
+  test_user_name: test
+
+
+### Access Points & Localhost ###
+### Don't forget to set a matching secret in secrets.yml
+
+clients:
+  -
+    name: LocalLoopback
+    shortname: loopback
+    ip4: 127.0.0.1
+    secret: "{{ loopback_secret }}"
+
+  -
+    name: TestLocal
+    shortname: test.local
+    ip4: "{{ ansible_host }}"
+    secret: "{{ testlocal_secret }}"
+
+  # -
+  #   name: TestAP
+  #   shortname: testap
+  #   ip4: 1.2.3.4
+  #   secret: "{{ testap_secret }}"
+
+  # -
+  #   name: TestAP with customized netmask and nastype
+  #   shortname: testap
+  #   ip4: 1.2.3.0
+  #   secret: "{{ linksys_secret }}"
+  #   netmask: "{{ default_netmask }}"
+  #   nastype: other
+
+
+
+### Federation/National Level Roaming Operators ###
+
+flrs:
+  -
+    name: eduroam.ml
+    shortname: flr1
+    ip4: 168.253.217.12
+    ipv6_enabled: False
+    ip6: 0:0:0:0:0:0:0:0
+    secret: "{{ ml_flr_secret }}"
+
+  # Second instance for Redundancy
+  # -
+  #   name: flra.eduroam
+  #   shortname: flra
+  #   ip4: 168.253.217.72
+  #   ipv6_enabled: True
+  #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+  #   secret: "{{ me_flr_secret }}"
+
+
+### Federation/National Level Registry ###
+
+djnro:
+  name: DjNRO
+  shortname: djnro
+  ip4: 168.253.217.136
+  secret: "{{ djnro_secret }}"
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False

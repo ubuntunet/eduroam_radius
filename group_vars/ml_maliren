@@ -1,19 +1,19 @@
-realm: uni.me
+realm: maliren.ml
 
-organisation: UniChris
-city: Lilongwe
-country_code: ME
+organisation: MaliREN
+city: Bamako
+country_code: ML
 
 
 ### Backends ###
 
 # LDAP Backend
 ldap:
-  enabled: True
-  server: ldap.ubuntunet.net
-  identity: cn=Manager,dc=ubuntunet,dc=net
+  enabled: False
+  server: ldap.maliren.ml
+  identity: cn=Manager,dc=maliren,dc=ml
   password: "{{ ldap_password_ubuntunet }}"
-  base_dn: ou=people,dc=ubuntunet,dc=net
+  base_dn: ou=people,dc=maliren,dc=ml
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
@@ -48,11 +48,11 @@ clients:
     ip4: "{{ ansible_host }}"
     secret: "{{ testlocal_secret }}"
 
-  -
-    name: TestAP
-    shortname: testap
-    ip4: 1.2.3.4
-    secret: "{{ testap_secret }}"
+  # -
+  #   name: TestAP
+  #   shortname: testap
+  #   ip4: 1.2.3.4
+  #   secret: "{{ testap_secret }}"
 
   # -
   #   name: TestAP with customized netmask and nastype
@@ -68,12 +68,12 @@ clients:
 
 flrs:
   -
-    name: eduroam.me
+    name: eduroam.ml
     shortname: flr1
-    ip4: 168.253.217.25
+    ip4: 168.253.217.12
     ipv6_enabled: False
     ip6: 0:0:0:0:0:0:0:0
-    secret: "{{ me_flr_secret }}"
+    secret: "{{ ml_flr_secret }}"
 
   # Second instance for Redundancy
   # -

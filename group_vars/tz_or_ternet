@@ -67,16 +67,17 @@ flrs:
     ip4: 41.70.23.5
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    # Don't add shared_secret here, but in secrets.yml
     secret: "{{ tz_flr_secret }}"
 
   # Second instance for Redundancy
-  -
-    name: flra.eduroam
-    shortname: flra
-    ip4: 168.253.216.149
-    ipv6_enabled: False
-    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ tz_flr_secret }}"
+  # -
+  #   name: flra.eduroam
+  #   shortname: flra
+  #   ip4: 168.253.216.149
+  #   ipv6_enabled: False
+  #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+  #   secret: "{{ tz_flr_secret }}"
 
 
 ### Federation/National Level Registry ###

@@ -6,5 +6,5 @@ ansible_user=ubuntu
 [idp]
 radius
 
-[tz_ternet]
+[tz_or_ternet]
 radius

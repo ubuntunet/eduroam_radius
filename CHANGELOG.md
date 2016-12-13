@@ -1,3 +1,7 @@
+[0.6.4] 2016/12/13
+-----------------
+* Rename tz_ternet to tz_or_ternet
+
 [0.6.3] 2016/12/13
 -----------------
 * Variables/Inventory for TERNET.or.tz

@@ -1,3 +1,7 @@
+[0.6.3] 2016/12/13
+-----------------
+* Variables/Inventory for TERNET.or.tz
+
 [0.6.2] 2016/12/8
 -----------------
 * Variables/Inventory for MaliREN

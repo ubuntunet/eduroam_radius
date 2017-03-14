@@ -62,9 +62,15 @@ home_server_pool EDUROAM-FTLR {
 
 #<!-- Realms known to the server are listed in realm sections. The nostrip command specifies that no domain stripping is performed (usernames always remain Network Access Identifier in the form short_username@domain.tld, for both local and roaming users).--!>
 
+
+{% for realm in realms %}
+
 realm {{ realm }} {
 #	  nostrip
 }
+
+{% endfor %}
+
 
 realm LOCAL {
 	  nostrip

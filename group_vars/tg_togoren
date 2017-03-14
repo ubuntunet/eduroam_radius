@@ -1,4 +1,5 @@
-realm: togoren.tg
+realms: 
+  - togoren.tg
 
 organisation: TogoREN
 city: Lome

@@ -1,4 +1,6 @@
-realm: ubuntunet.mw
+realms: 
+  - ubuntunet.mw
+  - ubuntunet.net
 
 organisation: UbuntuNet Alliance
 city: Lilongwe

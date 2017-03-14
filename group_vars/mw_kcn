@@ -1,4 +1,5 @@
-realm: kcn.mw
+realms: 
+  - kcn.mw
 
 # Static File
 file:

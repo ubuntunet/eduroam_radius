@@ -1,4 +1,5 @@
-realm: medcol.mw
+realms: 
+  - medcol.mw
 
 # Static File
 file:

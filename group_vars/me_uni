@@ -1,4 +1,5 @@
-realm: uni.me
+realms: 
+  - uni.me
 
 organisation: UniChris
 city: Lilongwe

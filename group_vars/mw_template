@@ -1,4 +1,5 @@
-realm: example.mw
+realms: 
+  - example.mw
 
 organisation: Example University
 city: Blantyre

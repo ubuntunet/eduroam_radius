@@ -1,4 +1,5 @@
-realm: maliren.ml
+realms: 
+  - maliren.ml
 
 organisation: MaliREN
 city: Bamako

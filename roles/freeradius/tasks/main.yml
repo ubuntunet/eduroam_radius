@@ -85,10 +85,10 @@
 
 - name: create self-signed SSL cert
   command: openssl req -new -nodes -x509 \ 
-    -subj "/C={{ country_code }}/L={{ city }}/O={{ organisation }}/CN={{ realm }}" \
+    -subj "/C={{ country_code }}/L={{ city }}/O={{ organisation }}/CN={{ realms[0] }}" \
     -days 3650 \
-    -keyout /etc/freeradius/certs/{{ realm }}.key \
-    -out /etc/freeradius/certs/{{ realm }}.crt \
+    -keyout /etc/freeradius/certs/{{ realms[0] }}.key \
+    -out /etc/freeradius/certs/{{ realms[0] }}.crt \
     -extensions v3_ca \
-    creates=/etc/freeradius/certs/{{ realm }}.crt
+    creates=/etc/freeradius/certs/{{ realms[0] }}.crt
   notify: restart freeradius

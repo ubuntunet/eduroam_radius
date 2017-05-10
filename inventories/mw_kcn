@@ -1,7 +1,7 @@
 radius ansible_host=41.70.64.12
 
 [idp:vars]
-ansible_user=ubuntu
+ansible_user=kcn
 
 [idp]
 radius

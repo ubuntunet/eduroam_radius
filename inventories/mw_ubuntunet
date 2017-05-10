@@ -1,4 +1,6 @@
-radius ansible_host=168.253.217.77
+#radius ansible_host=168.253.217.77
+#radius ansible_host=okavango.ubuntunet.net
+radius ansible_host=196.223.219.90
 
 [idp:vars]
 ansible_user=ubuntu

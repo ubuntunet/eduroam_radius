@@ -139,7 +139,7 @@ authorize {
 # ntdomain
 
 
-# if (("%{control:Proxy-To-Realm}" == "DEFAULT") && (User-Name =~ /.*@.*.{{ realm }}$/)) {
+# if (("%{control:Proxy-To-Realm}" == "DEFAULT") && (User-Name =~ /.*@.*.{{ realms[0] }}$/)) {
 #         update control {
 #           Proxy-To-Realm := NULL
 #         }

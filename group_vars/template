@@ -1,4 +1,6 @@
-realm: example.net
+realms: 
+  - example.tld
+  - example.net
 
 organisation: Example University
 city: Testville

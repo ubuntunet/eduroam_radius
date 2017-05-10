@@ -1,6 +1,8 @@
 ### Organisation ###
 
-realm: <myorg>.eduroam.me
+realms: 
+  - <myorg>.eduroam.me
+
 organisation: MyOrg
 city: Testville
 country_code: MW

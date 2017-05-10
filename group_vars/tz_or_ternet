@@ -1,4 +1,5 @@
-realm: ternet.or.tz
+realms: 
+  - ternet.or.tz
 
 organisation: TERNET - Tanzania Education & Research Network
 city: Dar es Salaam

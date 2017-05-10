@@ -1,0 +1,10 @@
+radius ansible_host=168.253.217.24
+
+[idp:vars]
+ansible_user=ubuntu
+
+[idp]
+radius
+
+[tg_uni:children]
+idp

@@ -1,4 +1,5 @@
-realm: mlw.medcol.mw
+realms: 
+  - mlw.medcol.mw
 
 # Static File
 file:
@@ -79,7 +80,7 @@ flr1:
 
 flra_name: flra.eduroam
 flra:
-  ip4: 168.253.216.149
+  ip4: 196.223.219.91
   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
   name: "{{ flra_name }}"
@@ -95,7 +96,7 @@ flra:
 djnro:
   name: DjNRO
   shortname: djnro
-  ip4: 168.253.217.136
+  ip4: 196.223.218.58
   netmask: "{{ default_netmask }}"
   nastype: "{{ default_nastype }}"
   virtual_server: "{{ default_virtual_server }}"

@@ -1,12 +1,22 @@
-- name: Install Freeradius
+- name: Install Freeradius on Debian
   apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
   with_items:
     - freeradius
     - freeradius-ldap
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install Freeradius on RedHat
+  package: 
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - libselinux-python
+    - freeradius
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: Reduce Reject Delay
   replace: 
-    dest: /etc/freeradius/radiusd.conf
+    dest: "{{radius.config_path}}/radiusd.conf"
     regexp: 'reject_delay = 1' 
     replace: 'reject_delay = 0'
   notify: restart freeradius
@@ -15,28 +25,28 @@
 - name: Copy clients configuration
   template: > 
     src=clients.conf.j2 
-    dest=/etc/freeradius/clients.conf
+    dest="{{radius.config_path}}/clients.conf"
     backup=yes
   notify: restart freeradius
 
 - name: Copy proxy configuration
   template: > 
     src=proxy.conf.j2 
-    dest=/etc/freeradius/proxy.conf
+    dest="{{radius.config_path}}/proxy.conf"
     backup=yes
   notify: restart freeradius
 
 - name: Copy eap configuration
   template: > 
     src=eap.conf.j2 
-    dest=/etc/freeradius/eap.conf
+    dest="{{radius.config_path}}/eap.conf"
     backup=yes
   notify: restart freeradius
 
 - name: Copy LDAP module if enabled
   template: > 
     src=modules-ldap.j2 
-    dest=/etc/freeradius/modules/ldap
+    dest="{{radius.config_path}}/modules/ldap"
     backup=yes
   notify: restart freeradius
   when: ldap.enabled == True
@@ -44,7 +54,7 @@
 - name: Copy LDAP attributemap if enabled
   template: > 
     src=ldap.attrmap.j2 
-    dest=/etc/freeradius/ldap.attrmap
+    dest="{{radius.config_path}}/ldap.attrmap"
     backup=yes
   notify: restart freeradius
   when: ldap.enabled == True
@@ -52,7 +62,7 @@
 - name: Add test user if enabled
   template: > 
     src=users.j2 
-    dest=/etc/freeradius/users
+    dest="{{radius.config_path}}/users"
     backup=yes
   notify: restart freeradius
   when: file.enabled == True
@@ -60,26 +70,26 @@
 - name: Copy sites/default-eduroam
   template: > 
     src=sites_default-eduroam.j2 
-    dest=/etc/freeradius/sites-available/default-eduroam
+    dest="{{radius.config_path}}/sites-available/default-eduroam"
   notify: restart freeradius
 
 - name: Enable sites/default-eduroam
   file: >
-    src=/etc/freeradius/sites-available/default-eduroam 
-    dest=/etc/freeradius/sites-enabled/default-eduroam
+    src="{{radius.config_path}}/sites-available/default-eduroam" 
+    dest="{{radius.config_path}}/sites-enabled/default-eduroam"
     state=link 
   notify: restart freeradius
 
 - name: Copy sites/inner-tunnel-eduroam
   template: > 
     src=sites_inner-tunnel-eduroam.j2 
-    dest=/etc/freeradius/sites-available/inner-tunnel-eduroam
+    dest="{{radius.config_path}}/sites-available/inner-tunnel-eduroam"
   notify: restart freeradius
 
 - name: Enable sites/inner-tunnel-eduroam
   file: >
-    src=/etc/freeradius/sites-available/inner-tunnel-eduroam 
-    dest=/etc/freeradius/sites-enabled/inner-tunnel-eduroam
+    src="{{radius.config_path}}/sites-available/inner-tunnel-eduroam"
+    dest="{{radius.config_path}}/sites-enabled/inner-tunnel-eduroam"
     state=link
   notify: restart freeradius
 
@@ -87,8 +97,8 @@
   command: openssl req -new -nodes -x509 \ 
     -subj "/C={{ country_code }}/L={{ city }}/O={{ organisation }}/CN={{ realms[0] }}" \
     -days 3650 \
-    -keyout /etc/freeradius/certs/{{ realms[0] }}.key \
-    -out /etc/freeradius/certs/{{ realms[0] }}.crt \
+    -keyout "{{radius.config_path}}/certs/{{ realms[0] }}.key" \
+    -out "{{radius.config_path}}/certs/{{ realms[0] }}.crt" \
     -extensions v3_ca \
-    creates=/etc/freeradius/certs/{{ realms[0] }}.crt
+    creates="{{radius.config_path}}/certs/{{ realms[0] }}.crt"
   notify: restart freeradius

@@ -5,6 +5,17 @@
   tasks:
     - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
+- name: Gather OS specific variables
+  hosts: idp
+  become: True
+  gather_facts: True
+  tasks:
+    - include_vars: "{{ item }}"
+      with_first_found:
+        - "group_vars/distributions/{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+        - "group_vars/distributions/{{ ansible_distribution }}.yml"
+      tags: vars
+
 - name: Install eduroam Identity Provider
   hosts: idp
   become: True
@@ -17,7 +28,7 @@
     
   handlers:
     - name: restart freeradius
-      service: name=freeradius state=restarted
+      service: name={{ radius.name }} state=restarted
 
 
 # - name: Install NewRelic

@@ -1,0 +1,11 @@
+radius ansible_host=213.55.77.158
+
+[et_ethernet:children]
+idp
+
+[idp]
+radius
+
+[idp:vars]
+ansible_user=root
+

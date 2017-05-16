@@ -1,17 +1,25 @@
-- name: Install Freeradius on Debian
-  apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
+- name: Install Freeradius and LDAP module
+  package: 
+    name: "{{ item }}"
+    state: latest
   with_items:
     - freeradius
     - freeradius-ldap
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install Freeradius on RedHat
+# - name: Install Freeradius on Debian
+#   apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
+#   with_items:
+#     - freeradius
+#     - freeradius-ldap
+#   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install libselinux-python and freeradius-utils on RedHat
   package: 
     name: "{{ item }}"
     state: latest
   with_items:
     - libselinux-python
-    - freeradius
+    - freeradius-utils
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: Reduce Reject Delay

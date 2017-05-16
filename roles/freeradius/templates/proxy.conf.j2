@@ -11,7 +11,7 @@ proxy server {
 
 {% for flr in flrs %}
 
-  home_server {{ flr.name }}.mw4 {
+  home_server {{ flr.shortname }}.mw4 {
           type                    = auth+acct
           ipaddr                  = {{ flr.ip4 }}
           port                    = 1812
@@ -24,7 +24,7 @@ proxy server {
           num_answers_to_alive    = 3
   }
   {% if flr.ipv6_enabled %}
-    home_server {{ flr.name }}.mw6 {
+    home_server {{ flr.shortname }}.mw6 {
            type                    = auth+acct
            ipv6addr                = {{ flr.ip6 }}
            port                    = 1812
@@ -51,9 +51,9 @@ proxy server {
 home_server_pool EDUROAM-FTLR {
         type                    = fail-over
     {% for flr in flrs %}
-        home_server             = {{ flr.name }}.mw4
+        home_server             = {{ flr.shortname }}.mw4
       {% if flr.ipv6_enabled %}
-        home_server             = {{ flr1.name }}.mw6
+        home_server             = {{ flr.shortname }}.mw6
       {% endif %}
     {% endfor %}
 }

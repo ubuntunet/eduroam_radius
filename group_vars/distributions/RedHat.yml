@@ -1,0 +1,3 @@
+radius:
+  name: radiusd
+  config_path: /etc/raddb

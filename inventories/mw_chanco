@@ -1,0 +1,17 @@
+radius ansible_host=196.223.208.159
+#radius ansible_host=196.223.218.12
+#radius ansible_host=196.223.220.147
+#radius ansible_host=196.223.208.155
+#radius ansible_host=196.223.208.156
+#radius ansible_host=196.223.208.157
+#radius ansible_host=196.223.208.158
+
+[mw_chanco:children]
+idp
+
+[idp]
+radius
+
+[idp:vars]
+ansible_user=ubuntu
+

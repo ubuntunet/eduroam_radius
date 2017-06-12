@@ -10,8 +10,9 @@ file:
 ldap:
   enabled: False
   server: ldap.ubuntunet.net
-  identity: cn=Manager,dc=ubuntunet,dc=net
-  base_dn: ou=people,dc=ubuntunet,dc=net
+  identity: "{{ ldap_identity_mlw }}"
+  password: "{{ ldap_password_mlw }}"
+  base_dn: ou=people,dc=mlw,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password

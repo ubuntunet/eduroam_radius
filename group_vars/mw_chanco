@@ -1,36 +1,39 @@
 realms: 
-  - uni.tg
+  - chanco.ac.mw
+  - cc.ac.mw
+  - chanco.unima.mw
 
-organisation: UniLome
-city: Lome
-country_code: TG
+organisation: Chancellor College
+city: Zomba
+country_code: MW
 
 
 ### Backends ###
-
-# LDAP Backend
-ldap:
-  enabled: True
-  server: ldap.ubuntunet.net
-  identity: cn=Manager,dc=ubuntunet,dc=net
-  password: "{{ ldap_password_ubuntunet }}"
-  base_dn: ou=people,dc=ubuntunet,dc=net
-  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-  # How are user passwords saved in LDAP, used in ldap.attrmap
-  user_password_type: Cleartext-Password
-
-# SQL Backend (mysql or postgresql)
-sql:
-  enabled: False
-  type: postgresl 
-  server: localhost
-  port: 5432
-  user: radius
 
 # Static File
 file:
   enabled: True
   test_user_name: test
+
+
+# LDAP Backend
+ldap:
+  enabled: False
+  server: ldap.example.net
+  identity: "{{ ldap_identity_cc }}"
+  password: "{{ ldap_password_cc }}"
+  base_dn: ou=people,dc=cc,dc=ac,dc=mw
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP
+  user_password_type: Cleartext-Password
+
+# SQL Backend (mysql or postgresql)
+sql:
+  enabled: False
+  type: postgresl
+  server: localhost
+  port: 5432
+  user: radius
 
 
 ### Access Points & Localhost ###
@@ -43,11 +46,11 @@ clients:
     ip4: 127.0.0.1
     secret: "{{ loopback_secret }}"
 
-  -
-    name: TestLocal
-    shortname: test.local
-    ip4: "{{ ansible_host }}"
-    secret: "{{ testlocal_secret }}"
+  #-
+  #  name: TestLocal
+  #  shortname: test.local
+  #  ip4: "{{ ansible_host }}"
+  #  secret: "{{ testlocal_secret }}"
 
   -
     name: TestAP
@@ -56,11 +59,11 @@ clients:
     secret: "{{ testap_secret }}"
 
   # -
-  #   name: TestAP with customized netmask and nastype
-  #   shortname: testap
+  #   name: TestAP with customized netmask
+  #   shortname: testap-netmask
   #   ip4: 1.2.3.0
   #   secret: "{{ linksys_secret }}"
-  #   netmask: "{{ default_netmask }}"
+  #   netmask: 24
   #   nastype: other
 
 
@@ -69,21 +72,21 @@ clients:
 
 flrs:
   -
-    name: eduroam.tg
+    name: flr1.eduroam
     shortname: flr1
-    ip4: 168.253.217.12
+    ip4: 41.70.23.5
     ipv6_enabled: False
-    ip6: 0:0:0:0:0:0:0:0
-    secret: "{{ tg_flr_secret }}"
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ mw_flr_secret }}"
 
   # Second instance for Redundancy
-  # -
-  #   name: flra.eduroam
-  #   shortname: flra
-  #   ip4: 168.253.217.72
-  #   ipv6_enabled: True
-  #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-  #   secret: "{{ me_flr_secret }}"
+  -
+    name: flra.eduroam
+    shortname: flra
+    ip4: 196.223.219.91
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ mw_flr_secret }}"
 
 
 ### Federation/National Level Registry ###

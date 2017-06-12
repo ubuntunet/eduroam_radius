@@ -14,9 +14,9 @@ file:
 ldap:
   enabled: True
   server: 127.0.0.1
-  identity: cn=admin,dc=kcn,dc=mw
-  base_dn: ou=people,dc=kcn,dc=mw
+  identity: "{{ ldap_identity_kcn }}"
   password: "{{ ldap_password_kcn }}"
+  base_dn: ou=people,dc=kcn,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password

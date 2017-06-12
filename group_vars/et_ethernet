@@ -20,12 +20,12 @@ ldap:
   server: 192.168.0.124
   #server: 192.168.0.177
   # server: 213.55.77.155
-  identity: cn=Manager,dc=ethernet,dc=edu,dc=et
-  password: "{{ ldap_password }}"
+  identity: "{{ ldap_password_identity }}"
+  password: "{{ ldap_password_ethernet }}"
   base_dn: ou=people,dc=ethernet,dc=edu,dc=et
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP
-  user_password_type: Cleartext-Password
+  user_password_type: Password-With-Header
 
 # SQL Backend (mysql or postgresql)
 sql:

@@ -10,7 +10,7 @@ file:
 ldap
   enabled: True
   server: authsrv.medcol.mw
-  identity: uid=zmposix,cn=appaccts,cn=zimbra
+  identity: "{{ ldap_identity_medcol }}"
   password: "{{ ldap_password_medcol }}"
   base_dn: ou=people,dc=medcol,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"

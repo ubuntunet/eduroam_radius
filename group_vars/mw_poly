@@ -15,11 +15,12 @@ file:
 ldap:
   enabled: False
   server: ldap.ubuntunet.net
-  identity: cn=Manager,dc=ubuntunet,dc=net
-  base_dn: ou=people,dc=ubuntunet,dc=net
+  identity: "{{ ldap_identity_poly }}"
+  password: "{{ ldap_password_poly }}"
+  base_dn: ou=people,dc=poly,dc=ac,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
-  user_password_type: Cleartext-Password
+  user_password_type: Password-With-Header
 
 # SQL Backend (mysql or postgresql)
 sql:

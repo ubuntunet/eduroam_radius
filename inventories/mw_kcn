@@ -1,7 +1,10 @@
 radius ansible_host=41.70.64.12
 
-[idp:vars]
-ansible_user=kcn
+[mw_kcn:children]
+idp
 
 [idp]
 radius
+
+[idp:vars]
+ansible_user=kcn

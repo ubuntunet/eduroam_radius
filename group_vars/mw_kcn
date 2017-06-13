@@ -19,7 +19,7 @@ ldap:
   base_dn: ou=people,dc=kcn,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
-  user_password_type: Cleartext-Password
+  user_password_type: Password-With-Header
 
 # SQL Backend (mysql or postgresql)
 sql:
@@ -34,19 +34,19 @@ sql:
 ### Don't forget to set a matching secret in secrets.yml
 
 clients:
-
   -
     name: TestLocal
     shortname: test.local
     ip4: 41.70.64.12
-    secret: {{ testlocal_secret }}
-
+    secret: "{{ testlocal_secret }}" 
   -
     name: 127.0.0.1
     shortname: loopback
     ip4: 127.0.0.1
-    secret: {{ loopback_secret }}
+    secret: "{{ loopback_secret }}"
 
+
+### Federation/National Level Roaming Operators ###
 
 flrs:
   -
@@ -66,8 +66,19 @@ flrs:
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
     secret: "{{ mw_flr_secret }}"
 
+
+### Federation/National Level Registry ###
+
 djnro:
   name: DjNRO
   shortname: djnro
   ip4: 196.223.218.58
   secret: "{{ djnro_secret }}"
+
+
+### Additional Roles ###
+
+# Role for testing Radius IdP functionality
+play_eapol: False
+# Role for monitoring Radius server with NewRelic
+play_newrelic: False

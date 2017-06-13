@@ -20,7 +20,7 @@ ldap:
   server: 192.168.0.124
   #server: 192.168.0.177
   # server: 213.55.77.155
-  identity: "{{ ldap_password_identity }}"
+  identity: "{{ ldap_identity_ethernet }}"
   password: "{{ ldap_password_ethernet }}"
   base_dn: ou=people,dc=ethernet,dc=edu,dc=et
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"

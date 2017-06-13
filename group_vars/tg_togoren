@@ -12,8 +12,8 @@ country_code: TG
 ldap:
   enabled: False
   server: ldap.togoren.tg
-  identity: cn=Manager,dc=togoren,dc=tg
-  password: "{{ ldap_password_ubuntunet }}"
+  identity: "{{ ldap_identity_togoren }}"
+  password: "{{ ldap_password_togoren }}"
   base_dn: ou=people,dc=togoren,dc=tg
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap

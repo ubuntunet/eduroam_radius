@@ -12,8 +12,8 @@ country_code: ML
 ldap:
   enabled: False
   server: ldap.maliren.ml
-  identity: cn=Manager,dc=maliren,dc=ml
-  password: "{{ ldap_password_ubuntunet }}"
+  identity: "{{ ldap_identity_maliren }} "
+  password: "{{ ldap_password_maliren }}"
   base_dn: ou=people,dc=maliren,dc=ml
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap

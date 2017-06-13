@@ -10,8 +10,9 @@ file:
 ldap:
   enabled: False
   server: ldap.ubuntunet.net
-  identity: cn=Manager,dc=ubuntunet,dc=net
-  base_dn: ou=people,dc=ubuntunet,dc=net
+  identity: "{{ ldap_identity_mlw }}"
+  password: "{{ ldap_password_mlw }}"
+  base_dn: ou=people,dc=mlw,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
@@ -64,34 +65,25 @@ clients:
     secret: "{{ loopback_secret }}"
 
 
-flr1_name: flr1.eduroam
-flr1:
-  ip4: 41.70.23.5
-  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+### Federation/National Level Roaming Operators ###
 
-  name: "{{ flr1_name }}"
-  shortname: "{{ flr1_name }}"
-  ip4_name: "{{ flr1_name }}.mw4"
-  ip6_name: "{{ flr1_name }}.mw6"
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ mw_flr_secret }}"
+flrs:
+  -
+    name: flr1.eduroam
+    shortname: flr1
+    ip4: 41.70.23.5
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ mw_flr_secret }}"
 
-flra_name: flra.eduroam
-flra:
-  ip4: 196.223.219.91
-  ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-
-  name: "{{ flra_name }}"
-  shortname: "{{ flra_name }}"
-  ip4_name: "{{ flra_name }}.mw4"
-  ip6_name: "{{ flra_name }}.mw6"
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ mw_flr_secret }}"
-
+  # Second instance for Redundancy
+  -
+    name: flra.eduroam
+    shortname: flra
+    ip4: 196.223.219.91
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
+    secret: "{{ mw_flr_secret }}"
 
 djnro:
   name: DjNRO

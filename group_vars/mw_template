@@ -12,7 +12,8 @@ country_code: MW
 ldap:
   enabled: True
   server: ldap.example.mw
-  identity: cn=Manager,dc=example,dc=mw
+  identity: "{{ ldap_identity }}"
+  password: "{{ ldap_password }}"
   base_dn: ou=people,dc=example,dc=mw
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap

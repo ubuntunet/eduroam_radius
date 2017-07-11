@@ -99,5 +99,3 @@ djnro:
 
 # Role for testing Radius IdP functionality
 play_eapol: False
-# Role for monitoring Radius server with NewRelic
-play_newrelic: False

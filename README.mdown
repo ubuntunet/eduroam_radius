@@ -4,9 +4,10 @@
 
 ## Provisioning
 
-- Clone the repository from Github. The recursive is needed to clone the newrelic submodule as well.
+- Clone the repository from Github
 
-        git clone --recursive https://github.com/ubuntunet/eduroam_idp.git
+        git clone https://github.com/ubuntunet/eduroam_idp.git
+
 - Change into the newly created directory
 
         cd eduroam_idp

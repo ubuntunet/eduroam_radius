@@ -1,0 +1,89 @@
+- name: Reduce Reject Delay
+  replace: 
+    dest: "{{radius.config_path}}/radiusd.conf"
+    regexp: 'reject_delay = 1' 
+    replace: 'reject_delay = 0'
+  notify: restart freeradius
+
+- name: Copy clients configuration
+  template: 
+    src: clients.conf.j2 
+    dest: "{{radius.config_path}}/clients.conf"
+    backup: yes
+  tags: clients
+  notify: restart freeradius
+
+
+- name: Copy proxy configuration
+  template:
+    src: proxy.conf.j2 
+    dest: "{{radius.config_path}}/proxy.conf"
+    backup: yes
+  notify: restart freeradius
+
+- name: Copy eap configuration
+  template:
+    src: eap.conf.j2 
+    dest: "{{radius.config_path}}/eap.conf"
+    backup: yes
+  notify: restart freeradius
+
+- name: Copy LDAP module if enabled
+  template:
+    src: modules-ldap.j2 
+    dest: "{{radius.config_path}}/modules/ldap"
+    backup: yes
+  notify: restart freeradius
+  when: ldap.enabled == True
+
+- name: Copy LDAP attributemap if enabled
+  template:
+    src: ldap.attrmap.j2 
+    dest: "{{radius.config_path}}/ldap.attrmap"
+    backup: yes
+  notify: restart freeradius
+  when: ldap.enabled == True
+
+- name: Add test user if enabled
+  template:
+    src: users.j2 
+    dest: "{{radius.config_path}}/users"
+    backup: yes
+  notify: restart freeradius
+  when: file.enabled == True
+
+- name: Copy sites/default-eduroam
+  template:
+    src: sites_default-eduroam.j2 
+    dest: "{{radius.config_path}}/sites-available/default-eduroam"
+  notify: restart freeradius
+
+- name: Enable sites/default-eduroam
+  file:
+    src: "{{radius.config_path}}/sites-available/default-eduroam" 
+    dest: "{{radius.config_path}}/sites-enabled/default-eduroam"
+    state: link 
+  notify: restart freeradius
+
+- name: Copy sites/inner-tunnel-eduroam
+  template:
+    src: sites_inner-tunnel-eduroam.j2 
+    dest: "{{radius.config_path}}/sites-available/inner-tunnel-eduroam"
+  notify: restart freeradius
+
+- name: Enable sites/inner-tunnel-eduroam
+  file:
+    src: "{{radius.config_path}}/sites-available/inner-tunnel-eduroam"
+    dest: "{{radius.config_path}}/sites-enabled/inner-tunnel-eduroam"
+    state: link
+  notify: restart freeradius
+
+- name: create self-signed SSL cert
+  command: openssl req -new -nodes -x509 \ 
+    -subj "/C={{ country_code }}/L={{ city }}/O={{ organisation }}/CN={{ realms[0] }}" \
+    -days 3650 \
+    -keyout "{{radius.config_path}}/certs/{{ realms[0] }}.key" \
+    -out "{{radius.config_path}}/certs/{{ realms[0] }}.crt" \
+    -extensions v3_ca \
+    creates="{{radius.config_path}}/certs/{{ realms[0] }}.crt"
+  notify: restart freeradius

@@ -36,38 +36,6 @@ sql:
   user: radius
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-  #-
-  #  name: TestLocal
-  #  shortname: test.local
-  #  ip4: "{{ ansible_host }}"
-  #  secret: "{{ testlocal_secret }}"
-
-  -
-    name: TestAP
-    shortname: testap
-    ip4: 1.2.3.4
-    secret: "{{ testap_secret }}"
-
-  # -
-  #   name: TestAP with customized netmask
-  #   shortname: testap-netmask
-  #   ip4: 1.2.3.0
-  #   secret: "{{ linksys_secret }}"
-  #   netmask: 24
-  #   nastype: other
-
-
-
 ### Federation/National Level Roaming Operators ###
 
 flrs:
@@ -77,7 +45,7 @@ flrs:
     ip4: 41.70.23.5
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
+    secret: "{{ flr_secret }}"
 
   # Second instance for Redundancy
   -
@@ -86,7 +54,7 @@ flrs:
     ip4: 196.223.219.91
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
+    secret: "{{ flr_secret }}"
 
 
 ### Federation/National Level Registry ###

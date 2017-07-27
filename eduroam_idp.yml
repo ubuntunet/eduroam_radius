@@ -14,7 +14,8 @@
       with_first_found:
         - "group_vars/distributions/{{ ansible_distribution }}-{{ ansible_distribution_release}}.yml"
         - "group_vars/distributions/{{ ansible_distribution }}.yml"
-      tags: vars
+      tags: clients
+
 
 - name: Install eduroam Identity Provider
   hosts: idp

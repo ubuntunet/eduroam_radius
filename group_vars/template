@@ -7,27 +7,19 @@ city: Testville
 country_code: MW
 
 
-### Backends ###
+### User Stores ###
 
-# Static File
-file:
-  enabled: True
-  test_user_name: test
-
-
-# LDAP Backend
+# LDAP
 ldap:
   enabled: False
   server: ldap.example.net
-  identity: "{{ ldap_identity }}"
-  password: "{{ ldap_password }}"
   base_dn: ou=people,dc=example,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP
   # user_password_type: Cleartext-Password
   user_password_type: Password-With-Header
 
-# SQL Backend (mysql or postgresql)
+# SQL Database (mysql or postgresql)
 sql:
   enabled: False
   type: postgresl
@@ -35,37 +27,11 @@ sql:
   port: 5432
   user: radius
 
-
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-  #-
-  #  name: TestLocal
-  #  shortname: test.local
-  #  ip4: "{{ ansible_host }}"
-  #  secret: "{{ testlocal_secret }}"
-
-  -
-    name: TestAP
-    shortname: testap
-    ip4: 1.2.3.4
-    secret: "{{ testap_secret }}"
-
-  # -
-  #   name: TestAP with customized netmask
-  #   shortname: testap-netmask
-  #   ip4: 1.2.3.0
-  #   secret: "{{ linksys_secret }}"
-  #   netmask: 24
-  #   nastype: other
-
+# Static File, useful for testing
+# See also roles/freeradius/templates/clients.conf.j2
+file:
+  enabled: True
+  test_user_name: test
 
 
 ### Federation/National Level Roaming Operators ###
@@ -77,7 +43,6 @@ flrs:
     ip4: 168.253.217.71
     ipv6_enabled: False
     ip6:
-    secret: "{{ flr_secret }}"
 
   # Second instance for Redundancy
   # -
@@ -86,7 +51,6 @@ flrs:
   #   ip4: 168.253.217.72
   #   ipv6_enabled: True
   #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-  #   secret: "{{ flr_secret }}"
 
 
 ### Federation/National Level Registry ###
@@ -95,7 +59,6 @@ djnro:
   name: DjNRO
   shortname: djnro
   ip4: 168.253.217.136
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

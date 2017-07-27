@@ -73,7 +73,6 @@ djnro:
   name: DjNRO
   shortname: djnro
   ip4: 196.223.218.58
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

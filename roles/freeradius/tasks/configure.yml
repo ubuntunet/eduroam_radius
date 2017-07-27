@@ -8,7 +8,7 @@
 - name: Copy clients configuration
   template: 
     src: clients.conf.j2 
-    dest: "{{radius.config_path}}/clients.conf"
+    dest: "{{ radius.config_path }}/clients.conf"
     backup: yes
   tags: clients
   notify: restart freeradius

@@ -21,7 +21,7 @@
   client {{ flr.shortname }} {
     ipaddr                          = {{ flr.ip4 }}
     netmask                         = {{ flr.netmask|default(netmask) }}
-    secret                          = {{ flr.secret }}
+    secret                          = {{ flr_secret }}
     require_message_authenticator   = no
     shortname                       = {{ flr.shortname }}
     nastype                         = {{ flr.nastype|default(nastype) }}
@@ -34,10 +34,9 @@
 # Entry for the Federation/National Registry
   client {{ djnro.name }} {
     ipaddr                          = {{ djnro.ip4 }}
-    secret                          = {{ djnro.secret }}
+    secret                          = {{ djnro_secret }}
     netmask                         = {{ djnro.netmask|default(netmask) }}
     require_message_authenticator   = no
-    shortname                       = {{ djnro.shortname }}
     nastype                         = {{ djnro.nastype|default(nastype) }}
     virtual_server                  = {{ djnro.virtual_server|default(virtual_server) }}
   }

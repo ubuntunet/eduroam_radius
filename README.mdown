@@ -14,7 +14,6 @@
 
 - Copy the inventory template
 
-
         cp inventories/template inventories/<tld_institution>
 
 
@@ -35,6 +34,13 @@
 - Run the playbook. Whenever you change something in the playbook, just replay this command.
 
         ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml
+
+## I have added a new client, do I need to re-run the complete playbook?
+
+No, you can run just the task that is copying the clients.conf file by adding the appropriate tag
+
+        ansible-playbook -i inventories/<tld_institution> --tags "clients" eduroam_idp.yml
+
 
 
 ## How do I check if it works?
@@ -69,9 +75,11 @@ WIP
 
 ## How to add a new client?
 
+- Open group_vars/clients
 - Copy/Paste the client entry TestAP in your group_vars file
 - Change the name and the variable values
 - Add the shared_secret to secrets.yml
-- Re-run the playbook
+- Re-run the playbook with the clients tag
 
-## What do the additional roles do?
+        ansible-playbook -i inventories/<tld_institution> --tags "clients" eduroam_idp.yml
+

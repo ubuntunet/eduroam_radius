@@ -51,13 +51,6 @@ clients:
     ip4: 127.0.0.1
     secret: "{{ loopback_secret }}"
 
-  # -
-  #   name: UniFiAP
-  #   shortname: unifi
-  #   ip4: 41.216.228.242
-  #   secret: "{{ unifi_secret }}"
-
-
 
 ### Federation/National Level Roaming Operators ###
 

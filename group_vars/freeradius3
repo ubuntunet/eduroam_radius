@@ -1,25 +1,31 @@
 realms: 
-  - kcn.mw
+  - ubuntunet.mw
+  - ubuntunet.net
 
-organisation: Kamuzu College of Nursing
+organisation: UbuntuNet Alliance
 city: Lilongwe
 country_code: MW
+
+
+### Backends ###
 
 # Static File
 file:
   enabled: True
   test_user_name: test
 
+
 # LDAP Backend
 ldap:
   enabled: True
-  server: 127.0.0.1
-  identity: "{{ ldap_identity_kcn }}"
-  password: "{{ ldap_password_kcn }}"
-  base_dn: ou=people,dc=kcn,dc=mw
+  server: ldap.ubuntunet.net
+  identity: "{{ ldap_identity_ubuntunet }}"
+  password: "{{ ldap_password_ubuntunet }}"
+  base_dn: ou=people,dc=ubuntunet,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Password-With-Header
+  # user_password_type: Cleartext-Password
 
 # SQL Backend (mysql or postgresql)
 sql:
@@ -30,24 +36,8 @@ sql:
   user: radius
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: TestLocal
-    shortname: test.local
-    ip4: 41.70.64.12
-    secret: "{{ testlocal_secret }}" 
-  -
-    name: 127.0.0.1
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-
 ### Federation/National Level Roaming Operators ###
-
+### Get this information from your national Roaming Operator (NRO)
 flrs:
   -
     name: flr1.eduroam
@@ -73,6 +63,7 @@ djnro:
   name: DjNRO
   shortname: djnro
   ip4: 196.223.218.58
+  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

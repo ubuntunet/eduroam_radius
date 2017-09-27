@@ -15,7 +15,7 @@ proxy server {
           type                    = auth+acct
           ipaddr                  = {{ flr.ip4 }}
           port                    = 1812
-          secret                  = {{ flr.secret }}
+          secret                  = {{ flr_secret }}
           response_window         = 20
           zombie_period           = 40
           revive_interval         = 60
@@ -28,7 +28,7 @@ proxy server {
            type                    = auth+acct
            ipv6addr                = {{ flr.ip6 }}
            port                    = 1812
-           secret                  = {{ flr.secret }}
+           secret                  = {{ flr_secret }}
            response_window         = 20
            zombie_period           = 40
            revive_interval         = 60

@@ -36,60 +36,31 @@ sql:
   user: radius
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-
-  -
-    name: UniFiAP
-    shortname: unifi
-    ip4: 41.216.228.242
-    secret: "{{ unifi_secret }}"
-
-  -
-    name: TestLocal
-    shortname: test.local
-    # ip4: 168.253.217.77
-    ip4: 196.223.219.90
-    secret: "{{ testlocal_secret }}"
-
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-
-
 ### Federation/National Level Roaming Operators ###
 
 flrs:
   -
-    name: flr1.eduroam
-    shortname: flr1
-    ip4: 41.70.23.5
-    ipv6_enabled: False
-    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
-
-  # Second instance for Redundancy
-  -
-    name: flra.eduroam
+    name: flra.udp.mw
     shortname: flra
     ip4: 196.223.219.91
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
+
+  # Second instance for Redundancy
+  -
+    name: flr1.udp.mw
+    shortname: flr1
+    ip4: 155.232.192.130
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
 
 ### Federation/National Level Registry ###
 
 djnro:
   name: DjNRO
-  shortname: djnro
-  ip4: 196.223.218.58
-  secret: "{{ djnro_secret }}"
+  # shortname: djnro
+  ip4: 196.223.218.92
 
 
 ### Additional Roles ###

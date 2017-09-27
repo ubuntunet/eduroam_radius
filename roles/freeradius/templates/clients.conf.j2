@@ -6,7 +6,7 @@
     ipaddr                          = {{ client.ip4 }}
     netmask                         = {{ client.netmask|default(netmask) }}
     secret                          = {{ client.secret }}
-    require_message_authenticator   = no
+    require_message_authenticator   = yes
     nastype                         = {{ client.nastype|default(nastype) }}
     virtual_server                  = {{ client.virtual_server|default(virtual_server) }}
   }
@@ -22,7 +22,7 @@
     ipaddr                          = {{ flr.ip4 }}
     netmask                         = {{ flr.netmask|default(netmask) }}
     secret                          = {{ flr_secret }}
-    require_message_authenticator   = no
+    require_message_authenticator   = yes
     shortname                       = {{ flr.shortname }}
     nastype                         = {{ flr.nastype|default(nastype) }}
     virtual_server                  = {{ flr.virtual_server|default(virtual_server) }}
@@ -36,7 +36,7 @@
     ipaddr                          = {{ djnro.ip4 }}
     secret                          = {{ djnro_secret }}
     netmask                         = {{ djnro.netmask|default(netmask) }}
-    require_message_authenticator   = no
+    require_message_authenticator   = yes
     nastype                         = {{ djnro.nastype|default(nastype) }}
     virtual_server                  = {{ djnro.virtual_server|default(virtual_server) }}
   }

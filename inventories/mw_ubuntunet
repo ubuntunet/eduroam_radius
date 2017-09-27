@@ -1,7 +1,7 @@
-radius ansible_host=196.223.219.90
+wingu ansible_host=196.223.219.90
 
 [idp]
-radius
+wingu
 
 [idp:vars]
 ansible_user=ubuntu

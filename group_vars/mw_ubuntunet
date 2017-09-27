@@ -40,7 +40,7 @@ sql:
 
 flrs:
   -
-    name: flra.eduroam
+    name: flra.udp.mw
     shortname: flra
     ip4: 196.223.219.91
     ipv6_enabled: False
@@ -48,9 +48,9 @@ flrs:
 
   # Second instance for Redundancy
   -
-    name: flr1.eduroam
+    name: flr1.udp.mw
     shortname: flr1
-    ip4: 196.32.213.90
+    ip4: 155.232.192.130
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 

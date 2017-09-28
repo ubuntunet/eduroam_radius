@@ -66,4 +66,4 @@ djnro:
 ### Additional Roles ###
 
 # Role for testing Radius IdP functionality
-play_eapol: False
+play_eapol: True

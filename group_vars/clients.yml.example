@@ -7,6 +7,10 @@ clients:
     ip4: 123.345.567.789
     secret: MySecret
   # -
+  #   name: MyOtherAP
+  #   ip4: 123.345.567.789
+  #   secret: MyOtherSecret
+  # -
   #   name: TestAP with customized netmask & nastype
   #   ip4: 1.2.3.0
   #   secret: AnotherSecret

@@ -44,7 +44,7 @@ flrs:
     ipv6_enabled: False
     ip6:
 
-  # Second instance for Redundancy
+  ## Second instance for Redundancy
   # -
   #   name: flra.eduroam
   #   shortname: flra
@@ -53,11 +53,10 @@ flrs:
   #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 168.253.217.136
 
 

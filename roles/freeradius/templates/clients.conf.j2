@@ -32,11 +32,11 @@
 
 
 # Entry for the Federation/National Registry
-  client {{ djnro.name }} {
-    ipaddr                          = {{ djnro.ip4 }}
-    secret                          = {{ djnro_secret }}
-    netmask                         = {{ djnro.netmask|default(netmask) }}
+  client {{ switchboard.name }} {
+    ipaddr                          = {{ switchboard.ip4 }}
+    secret                          = {{ switchboard }}
+    netmask                         = {{ switchboard.netmask|default(netmask) }}
     require_message_authenticator   = yes
-    nastype                         = {{ djnro.nastype|default(nastype) }}
-    virtual_server                  = {{ djnro.virtual_server|default(virtual_server) }}
+    nastype                         = {{ switchboard.nastype|default(nastype) }}
+    virtual_server                  = {{ switchboard.virtual_server|default(virtual_server) }}
   }

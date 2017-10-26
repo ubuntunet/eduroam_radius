@@ -55,11 +55,10 @@ flrs:
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  # shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 196.223.218.92
 
 

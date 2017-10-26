@@ -54,3 +54,8 @@
     remote_src: true
     mode: 755
 
+- name: Copy the test configuration file for PEAP MSCHAPv2
+  template:
+    src: peap-mschapv2.conf.j2
+    dest: ~/peap-mschapv2.conf
+

@@ -1,29 +1,29 @@
 ### Access Points ###
-### Don't forget to set a matching secret in secrets.yml
 
 clients:
 
   -
-    name: <ExampleAP>
+    name: MyAP
     ip4: 123.345.567.789
-    secret: "{{ secrets.my_ap }}"
+    secret: MySecret
   # -
   #   name: TestAP with customized netmask & nastype
   #   ip4: 1.2.3.0
-  #   secret: "{{ secrets.my_other_ap }}"
+  #   secret: AnotherSecret
   #   netmask: 24
   #   nastype: other
+
 
 
   ## Usually no need to touch these two test entries ##
   -
     name: TestLocal
     ip4: "{{ ansible_host }}"
-    secret: "{{ secrets.testlocal }}"
+    secret: testing123
   -
     name: LocalLoopback
     ip4: 127.0.0.1
-    secret: "{{ secrets.loopback }}"
+    secret: testing123
 
 
 

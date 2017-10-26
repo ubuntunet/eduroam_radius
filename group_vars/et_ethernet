@@ -35,45 +35,6 @@ sql:
   port: 5432
   user: radius
 
-
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-  -
-   name: TestLocalInternal
-   shortname: testinternal
-   ip4: 192.168.0.177
-   secret: "{{ testlocal_secret }}"
-
-  -
-   name: TestLocalPublic
-   shortname: testpublic
-   ip4: "{{ ansible_host }}"
-   secret: "{{ testlocal_secret }}"
-
-  -
-    name: TestAP
-    shortname: testap
-    ip4: 192.168.0.1
-    secret: "{{ testap_secret }}"
-
-  # -
-  #   name: TestAP with customized netmask
-  #   shortname: testap-netmask
-  #   ip4: 1.2.3.0
-  #   secret: "{{ linksys_secret }}"
-  #   netmask: 24
-  #   nastype: other
-
-
-
 ### Federation/National Level Roaming Operators ###
 
 flrs:
@@ -95,13 +56,11 @@ flrs:
     secret: "{{ et_flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 168.253.217.136
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

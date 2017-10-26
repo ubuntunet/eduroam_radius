@@ -30,22 +30,6 @@ sql:
   user: radius
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: TestLocal
-    shortname: test.local
-    ip4: 41.70.64.12
-    secret: "{{ testlocal_secret }}" 
-  -
-    name: 127.0.0.1
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-
 ### Federation/National Level Roaming Operators ###
 
 flrs:
@@ -67,11 +51,10 @@ flrs:
     secret: "{{ mw_flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 196.223.218.58
 
 

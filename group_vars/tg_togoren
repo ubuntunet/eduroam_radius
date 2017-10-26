@@ -33,36 +33,6 @@ file:
   test_user_name: test
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
-
-  -
-    name: TestLocal
-    shortname: test.local
-    ip4: "{{ ansible_host }}"
-    secret: "{{ testlocal_secret }}"
-
-  # -
-  #   name: TestAP
-  #   shortname: testap
-  #   ip4: 1.2.3.4
-  #   secret: "{{ testap_secret }}"
-
-  # -
-  #   name: TestAP with customized netmask and nastype
-  #   shortname: testap
-  #   ip4: 1.2.3.0
-  #   secret: "{{ linksys_secret }}"
-  #   netmask: "{{ default_netmask }}"
-  #   nastype: other
-
 
 
 ### Federation/National Level Roaming Operators ###
@@ -86,13 +56,11 @@ flrs:
   #   secret: "{{ me_flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 168.253.217.136
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

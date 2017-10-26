@@ -25,44 +25,6 @@ sql:
   port: 5432
   user: radius
 
-# Role for testing Radius IdP functionality
-play_eapol: False
-
-
-default_netmask: 32
-default_nastype: other
-default_virtual_server: default-eduroam
-default_inner_tunnel: inner-tunnel-eduroam
-
-clients:
-  -
-    name: TestLocalInternal
-    shortname: test.local
-    ip4: 10.137.17.203
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ testlocal_secret }}"
-
-  -
-    name: TestLocalExternal
-    shortname: test.local
-    ip4: 41.77.11.187
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ testlocal_secret }}"
-
-  -
-    name: 127.0.0.1
-    shortname: loopback
-    ip4: 127.0.0.1
-    netmask: "{{ default_netmask }}"
-    nastype: "{{ default_nastype }}"
-    virtual_server: "{{ default_virtual_server }}"
-    secret: "{{ loopback_secret }}"
-
-
 ### Federation/National Level Roaming Operators ###
 
 flrs:
@@ -83,11 +45,10 @@ flrs:
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
     secret: "{{ mw_flr_secret }}"
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 196.223.218.58
-  netmask: "{{ default_netmask }}"
-  nastype: "{{ default_nastype }}"
-  virtual_server: "{{ default_virtual_server }}"
-  secret: "{{ djnro_secret }}"
+
+
+# Role for testing Radius IdP functionality
+play_eapol: False

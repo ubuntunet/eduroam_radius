@@ -20,6 +20,7 @@ clients:
 
 
   ## Usually no need to touch these two test entries ##
+  ## Unless to change the shared secrets for security reasons  ##
   -
     name: TestLocal
     ip4: "{{ ansible_host }}"

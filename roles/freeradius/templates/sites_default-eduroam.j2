@@ -588,9 +588,9 @@ post-auth {
 #
 pre-proxy {
 
-  # update proxy-request {
-  #   Operator-Name := "1{{ realms[0] }}"
-  # }
+  update proxy-request {
+    Operator-Name := "1{{ realms[0] }}"
+  }
 
 # attr_rewrite
 

@@ -21,7 +21,7 @@
 
 - name: Download wpa_supplicant
   get_url:
-    url: http://hostap.epitest.fi/releases/wpa_supplicant-2.6.tar.gz
+    url: http://w1.fi/releases/wpa_supplicant-2.6.tar.gz
     dest: /opt/wpa_supplicant-2.6.tar.gz
 
 - name: Extract wpa_supplicant
@@ -53,4 +53,9 @@
     src: /opt/wpa_supplicant-2.6/wpa_supplicant/eapol_test
     remote_src: true
     mode: 755
+
+- name: Copy the test configuration file for PEAP MSCHAPv2
+  template:
+    src: peap-mschapv2.conf.j2
+    dest: ~/peap-mschapv2.conf
 

@@ -4,6 +4,6 @@
 *.retry
 
 group_vars/*secrets.yml
-group_vars/*clients.yml
+group_vars/*clients*.yml
 
 .vagrant%

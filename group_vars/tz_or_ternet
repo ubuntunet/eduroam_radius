@@ -5,7 +5,6 @@ organisation: TERNET - Tanzania Education & Research Network
 city: Dar es Salaam
 country_code: TZ
 
-
 ### Backends ###
 
 # Static File
@@ -17,10 +16,11 @@ file:
 # LDAP Backend
 ldap:
   enabled: True
-  server: ldap.ubuntunet.net
+  # server: ldap.ternet.or.tz
+  server: 192.168.148.31
   identity: "{{ ldap_identity_ternet }}"
   password: "{{ ldap_password_ternet }}"
-  base_dn: ou=people,dc=ubuntunet,dc=net
+  base_dn: ou=people,dc=ternet,dc=or,dc=tz
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
   user_password_type: Cleartext-Password
@@ -34,22 +34,7 @@ sql:
   user: radius
 
 
-### Access Points & Localhost ###
-### Don't forget to set a matching secret in secrets.yml
-
-clients:
-
-  -
-    name: TestLocal
-    shortname: test.local
-    ip4: 168.253.217.77
-    secret: "{{ testlocal_secret }}"
-
-  -
-    name: LocalLoopback
-    shortname: loopback
-    ip4: 127.0.0.1
-    secret: "{{ loopback_secret }}"
+### Access Points are found in group_vars/clients.yml ###
 
 
 ### Federation/National Level Roaming Operators ###
@@ -58,11 +43,12 @@ flrs:
   -
     name: flr1.eduroam
     shortname: flr1
-    ip4: 41.70.23.5
+    # ip4: 41.93.32.29
+    ip4: 192.168.148.29
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
     # Don't add shared_secret here, but in secrets.yml
-    secret: "{{ tz_flr_secret }}"
+    secret: "{{ flr_secret }}"
 
   # Second instance for Redundancy
   # -
@@ -74,13 +60,11 @@ flrs:
   #   secret: "{{ tz_flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 168.253.217.136
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

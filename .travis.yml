@@ -1,3 +1,5 @@
+# http://fishi.devtail.io/weblog/2016/04/02/testing-ansible-ansible-vault-travis-ci/
+
 language: python
 python: '2.7'
 sudo: true

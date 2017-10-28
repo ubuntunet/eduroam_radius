@@ -8,6 +8,8 @@ addons:
 before_install:
 - openssl aes-256-cbc -K $encrypted_3723425d7017_key -iv $encrypted_3723425d7017_iv
   -in secrets.yml.enc -out group_vars/secrets.yml -d
+- openssl aes-256-cbc -K $encrypted_3723425d7017_key -iv $encrypted_3723425d7017_iv
+  -in clients.yml.enc -out group_vars/clients.yml -d
 install:
 - pip install ansible
 - ansible --version

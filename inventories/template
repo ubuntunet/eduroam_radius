@@ -1,11 +1,11 @@
 radius ansible_host=<FQDN or IP>
 
-[<tld_institution>:children]
-idp
-
 [idp]
 radius
 
 [idp:vars]
 ansible_user=ubuntu
+
+[<tld_institution>:children]
+idp
 

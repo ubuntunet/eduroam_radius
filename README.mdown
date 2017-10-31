@@ -17,7 +17,8 @@
         cp inventories/template inventories/<tld_institution>
 
 
-- Open your new inventory and replace 
+- Open your new inventory and replace
+
   - FQDN or IP with the actual URL/IP of your server
   - <tld_institution> with your actual inventory file name
 

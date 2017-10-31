@@ -34,7 +34,7 @@
 # Entry for the Federation/National Registry
   client {{ switchboard.name }} {
     ipaddr                          = {{ switchboard.ip4 }}
-    secret                          = {{ switchboard }}
+    secret                          = {{ switchboard_secret }}
     netmask                         = {{ switchboard.netmask|default(netmask) }}
     require_message_authenticator   = yes
     nastype                         = {{ switchboard.nastype|default(nastype) }}

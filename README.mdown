@@ -6,11 +6,11 @@
 
 - Clone the repository from Github
 
-        git clone https://github.com/ubuntunet/eduroam_idp.git
+        git clone https://github.com/ubuntunet/eduroam_radius.git
 
 - Change into the newly created directory
 
-        cd eduroam_idp
+        cd eduroam_radius
 
 - Copy the inventory template
 

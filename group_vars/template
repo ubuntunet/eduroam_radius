@@ -31,7 +31,7 @@ sql:
 # See also roles/freeradius/templates/clients.conf.j2
 file:
   enabled: True
-  test_user_name: test
+  test_user_name: roamer
 
 
 ### Federation/National Level Roaming Operators ###

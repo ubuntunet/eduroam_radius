@@ -10,7 +10,7 @@ country_code: ET
 
 # LDAP
 ldap:
-  enabled: True
+  enabled: False
   server: ldap.example.net
   base_dn: ou=people,dc=example,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
@@ -30,7 +30,7 @@ sql:
 # See also roles/freeradius/templates/clients.conf.j2
 file:
   enabled: True
-  test_user_name: test
+  test_user_name: roamer
 
 
 ### Federation/National Level Roaming Operators ###

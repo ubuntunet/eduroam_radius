@@ -1,0 +1,33 @@
+### Access Points ###
+### Don't forget to set a matching secret in secrets.yml
+
+clients:
+  -
+    name: TestAP
+    ip4: 192.168.0.1
+    secret: testing123
+  # -
+  #   name: TestAP with customized netmask
+  #   ip4: 1.2.3.0
+  #   secret: "{{ linksys_secret }}"
+  ##   netmask: 24
+  ##   nastype: other
+
+
+  ## Usually no need to touch these two test entries ##
+  -
+   name: TestLocalInternal
+   shortname: testinternal
+   ip4: 192.168.0.177
+   secret: "{{ testlocal_secret }}"
+
+  -
+   name: TestLocalPublic
+   shortname: testpublic
+   ip4: "{{ ansible_host }}"
+   secret: "{{ testlocal_secret }}"
+
+  -
+    name: LocalLoopback
+    ip4: 127.0.0.1
+    secret: "{{ secrets.loopback }}"

@@ -1,0 +1,20 @@
+### Access Points ###
+### Don't forget to set a matching secret in secrets.yml
+
+clients:
+  -
+    name: TrainingAP
+    shortname: training
+    ip4: 41.93.50.9
+    secret: 8888888888
+
+
+  ## Usually no need to touch these two test entries ##
+  -
+    name: TestLocal
+    ip4: "{{ ansible_host }}"
+    secret: testing123
+  -
+    name: LocalLoopback
+    ip4: 127.0.0.1
+    secret: testing123

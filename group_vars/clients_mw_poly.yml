@@ -1,0 +1,29 @@
+### Access Points ###
+
+clients:
+
+  -
+    name: Azuretec
+    ip4: 10.10.48.143
+    secret: testing123
+  # -
+  #   name: TestAP with customized netmask & nastype
+  #   ip4: 1.2.3.0
+  #   secret: AnotherSecret
+  #   netmask: 24
+  #   nastype: other
+
+
+
+  ## Usually no need to touch these two test entries ##
+  -
+    name: TestLocal
+    ip4: "{{ ansible_host }}"
+    secret: testing123
+  -
+    name: LocalLoopback
+    ip4: 127.0.0.1
+    secret: testing123
+
+
+

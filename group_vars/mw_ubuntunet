@@ -1,3 +1,4 @@
+---
 realms: 
   - ubuntunet.mw
   - ubuntunet.net
@@ -12,7 +13,7 @@ country_code: MW
 # Static File
 file:
   enabled: True
-  test_user_name: test
+  test_user_name: roamer
 
 
 # LDAP Backend

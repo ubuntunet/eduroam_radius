@@ -1,8 +1,12 @@
 network={
-        ssid="{{ ssid }}"
-        key_mgmt=WPA-EAP
-        eap=PEAP
-        identity="{{ file.test_user_name }}"
-        password="{{ test_user_password }}"
-        phase2="autheap=MSCHAPV2"
+  ssid="{{ ssid }}"
+  key_mgmt=WPA-EAP
+  eap=PEAP
+  anonymous_identity="anonymous"
+  identity="{{ file.test_user_name }}"
+  password="{{ test_user_password }}"
+  phase2="autheap=MSCHAPV2"
+
+  ## Uncomment to perform server certificate validation.
+  # ca_cert="{{radius.config_path}}/certs/ca.pem"
 }

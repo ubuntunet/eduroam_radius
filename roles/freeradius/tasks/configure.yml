@@ -5,6 +5,20 @@
     replace: 'reject_delay = 0'
   notify: restart freeradius
 
+- name: Copy dictionary with Operator-Name
+  copy: 
+    src: files/dictionary
+    dest: "{{ radius.config_path }}/dictionary"
+    backup: yes
+  notify: restart freeradius
+
+- name: Copy attrs.pre-proxy with Operator-Name
+  copy: 
+    src: files/attrs.pre-proxy
+    dest: "{{ radius.config_path }}/attrs.pre-proxy"
+    backup: yes
+  notify: restart freeradius
+
 - name: Copy clients configuration
   template: 
     src: clients.conf.j2 
@@ -12,7 +26,6 @@
     backup: yes
   tags: clients
   notify: restart freeradius
-
 
 - name: Copy proxy configuration
   template:

@@ -6,19 +6,20 @@
 
 - Clone the repository from Github
 
-        git clone https://github.com/ubuntunet/eduroam_idp.git
+        git clone https://github.com/ubuntunet/eduroam_radius.git
 
 - Change into the newly created directory
 
-        cd eduroam_idp
+        cd eduroam_radius
 
 - Copy the inventory template
 
         cp inventories/template inventories/<tld_institution>
 
 
-- Open your new inventory and replace 
-  - <FQDN or IP> with the actual URL/IP of your server
+- Open your new inventory and replace
+
+  - FQDN or IP with the actual URL/IP of your server
   - <tld_institution> with your actual inventory file name
 
 - Copy the group_vars template
@@ -27,20 +28,26 @@
 
 - Adopt the variables in group_vars/<tld_institution> to your liking
 
+- Copy the clients template, where you'll be adding the information about the clients that are connecting to your Radius server
+
+        cp group_vars/clients.yml.example group_vars/clients.yml
+
 - Create the secret.yml file that contains your sensitive information. Add your credentials.
 
         cp group_vars/secrets.yml.example group_vars/secrets.yml
 
-- Run the playbook. Whenever you change something in the playbook, just replay this command.
+- Run the playbook and make sure it finishes without error messages. Whenever you change something in the playbook, just replay this command.
 
         ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml
 
-## I have added a new client, do I need to re-run the complete playbook?
+## Adding a new client/access point (AP)
 
-No, you can run just the task that is copying the clients.conf file by adding the appropriate tag
+- Open group_vars/clients.yml
+- Copy/Paste the client entry MyOtherAP
+- Change the name, IP address and shared secret
+- Re-run the playbook with the clients tag, which will only copy the clients.conf file making for a faster deployment
 
         ansible-playbook -i inventories/<tld_institution> --tags "clients" eduroam_idp.yml
-
 
 
 ## How do I check if it works?
@@ -67,19 +74,23 @@ and check for an "Access-Accept" in the response.
 
 ### Using eapol_test
 
-http://deployingradius.com/scripts/eapol_test/
+See also http://deployingradius.com/scripts/eapol_test
 
-You need to enable the eapol_test role in your group_vars file and rerun the playbook first.
+- Enable eapol_test role in your group_vars file
 
-WIP
+          play_eapol: True
 
-## How to add a new client?
+- Re-run playbook
 
-- Open group_vars/clients
-- Copy/Paste the client entry TestAP in your group_vars file
-- Change the name and the variable values
-- Add the shared_secret to secrets.yml
-- Re-run the playbook with the clients tag
+          ansible-playbook -i inventories/<tld_institution> eduroam_idp.yml          
 
-        ansible-playbook -i inventories/<tld_institution> --tags "clients" eduroam_idp.yml
+- Log into the server
+- Have a look at the configuration test file in your home folder
+
+          vi ~/peap-mschapv2.conf
+
+- Run the test
+
+          eapol_test -c ~/peap-mschapv2.conf -s testing123
+
 

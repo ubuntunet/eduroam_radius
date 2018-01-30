@@ -57,13 +57,11 @@ flrs:
     secret: "{{ flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
-djnro:
-  name: DjNRO
-  shortname: djnro
+switchboard:
+  name: Switchboard
   ip4: 168.253.217.136
-  secret: "{{ djnro_secret }}"
 
 
 ### Additional Roles ###

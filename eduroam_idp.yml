@@ -1,4 +1,4 @@
-- name: Make sure Python2 is available
+- name: Make sure Python2 is available as Python3 is not yet properly supported by Ansible
   hosts: idp
   become: True
   gather_facts: False

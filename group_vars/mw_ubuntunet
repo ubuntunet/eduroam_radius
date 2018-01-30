@@ -1,3 +1,4 @@
+---
 realms: 
   - ubuntunet.mw
   - ubuntunet.net
@@ -12,7 +13,7 @@ country_code: MW
 # Static File
 file:
   enabled: True
-  test_user_name: test
+  test_user_name: roamer
 
 
 # LDAP Backend
@@ -55,11 +56,10 @@ flrs:
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
 switchboard:
-  name: DjNRO
-  # shortname: djnro
+  name: Switchboard
   ip4: 196.223.218.92
 
 

@@ -1,0 +1,11 @@
+radius ansible_host=chris.ubuntunet.net
+
+[idp]
+radius
+
+[idp:vars]
+ansible_user=ubuntu
+
+[et_aait:children]
+idp
+

@@ -1,64 +1,61 @@
 realms: 
-  - togoren.tg
+  - aait.edu.et
 
-organisation: TogoREN
-city: Lome
-country_code: TG
+organisation: Addis Ababa Institute of Technolgy
+city: Addis Ababa
+country_code: ET
 
 
-### Backends ###
+### User Stores ###
 
-# LDAP Backend
+# LDAP
 ldap:
   enabled: False
-  server: ldap.togoren.tg
-  identity: "{{ ldap_identity_togoren }}"
-  password: "{{ ldap_password_togoren }}"
-  base_dn: ou=people,dc=togoren,dc=tg
+  server: ldap.example.net
+  base_dn: ou=people,dc=example,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
-  # How are user passwords saved in LDAP, used in ldap.attrmap
-  user_password_type: Cleartext-Password
+  # How are user passwords saved in LDAP
+  # user_password_type: Cleartext-Password
+  user_password_type: Password-With-Header
 
-# SQL Backend (mysql or postgresql)
+# SQL Database (mysql or postgresql)
 sql:
   enabled: False
-  type: postgresl 
+  type: postgresl
   server: localhost
   port: 5432
   user: radius
 
-# Static File
+# Static File, useful for testing
+# See also roles/freeradius/templates/clients.conf.j2
 file:
   enabled: True
-  test_user_name: test
-
-
+  test_user_name: roamer
 
 
 ### Federation/National Level Roaming Operators ###
 
 flrs:
   -
-    name: eduroam.tg
+    name: flr1.eduroam
     shortname: flr1
-    ip4: 168.253.217.12
+    ip4: 168.253.217.71
     ipv6_enabled: False
-    ip6: 0:0:0:0:0:0:0:0
-    secret: "{{ tg_flr_secret }}"
+    ip6:
 
-  # Second instance for Redundancy
+  ## Second instance for Redundancy
   # -
   #   name: flra.eduroam
   #   shortname: flra
   #   ip4: 168.253.217.72
   #   ipv6_enabled: True
   #   ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-  #   secret: "{{ me_flr_secret }}"
 
 
 ### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
 switchboard:
+  secret: MySecret
   name: Switchboard
   ip4: 168.253.217.136
 

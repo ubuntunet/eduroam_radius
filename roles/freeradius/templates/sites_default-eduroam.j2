@@ -69,6 +69,7 @@ server default-eduroam {
 #  Make *sure* that 'preprocess' comes before any realm if you
 #  need to setup hints for the remote radius server
 authorize {
+
   #
   #  Security settings.  Take a User-Name, and do some simple
   #  checks on it, for spaces and other invalid characters.  If
@@ -586,6 +587,11 @@ post-auth {
 #  Only a few modules currently have this method.
 #
 pre-proxy {
+
+  update proxy-request {
+    Operator-Name := "1{{ realms[0] }}"
+  }
+
 # attr_rewrite
 
   #  Uncomment the following line if you want to change attributes

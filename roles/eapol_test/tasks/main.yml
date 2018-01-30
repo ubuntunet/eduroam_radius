@@ -36,7 +36,7 @@
 
 - name: Download wpa_supplicant
   get_url:
-    url: http://hostap.epitest.fi/releases/wpa_supplicant-2.6.tar.gz
+    url: http://w1.fi/releases/wpa_supplicant-2.6.tar.gz
     dest: /opt/wpa_supplicant-2.6.tar.gz
 
 - name: Extract wpa_supplicant
@@ -81,10 +81,26 @@
     force: no
   tags: eapol_test
 
-- name: Fix EAPOL_PROG location in rad_eap_test
-  become: yes
-  replace:
-    path: /usr/local/bin/rad_eap_test
-    regexp: "^EAPOL_PROG=(?!\\$\\(dirname).*$"
-    replace: 'EAPOL_PROG=$(dirname "$0")/eapol_test'
-  tags: eapol_test
+- name: Copy the test configuration file for PEAP MSCHAPv2
+  become: False
+  template:
+    src: peap-mschapv2.conf.j2
+    dest: ~/peap-mschapv2.conf
+
+- name: Copy the test configuration file for TTLS CHAP
+  become: False
+  template:
+    src: ttls-chap.conf.j2
+    dest: ~/ttls-chap.conf
+
+- name: Copy the test configuration file for TTLS MSCHAPv2
+  become: False
+  template:
+    src: ttls-mschapv2.conf.j2
+    dest: ~/ttls-mschapv2.conf
+
+- name: Copy the test configuration file for TTLS PAP
+  become: False
+  template:
+    src: ttls-pap.conf.j2
+    dest: ~/ttls-pap.conf

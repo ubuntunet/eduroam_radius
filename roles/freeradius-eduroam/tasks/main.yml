@@ -1,0 +1,87 @@
+---
+
+# - name: Make sure FreeRADIUS 2 is not installed
+#   apt:
+#     name: freeradius
+#     state: absent
+
+# tasks file for freeradius-eduroam
+- name: Use the unofficial FreeRADIUS PPA to get 3.x
+  become: yes
+  apt_repository:
+    # This will eventually be deprecated
+    repo: "ppa:freeradius/stable-3.0"
+    update_cache: yes
+  tags: [ freeradius, apt ]
+
+- name: Install FreeRADIUS from Apt
+  # Note that we've deliberately elected to use FreeRADIUS from a
+  # package repository rather than compiling the most recent version as
+  # suggested in the eduroam docs. The assumption is that people who
+  # use this playbook are unlikely to track updates, so there's a higher
+  # chance of security updates being applied if we use a package.
+  become: yes
+  apt:
+    update_cache: yes
+    name: "{{item}}"
+    state: present
+  with_items:
+    - freeradius
+  tags: [ freeradius, apt ]
+  notify: restart freeradius
+
+- name: Install LDAP module if enabled
+  apt: 
+    name: freeradius-ldap
+    state: present
+  when: ldap.enabled == True
+  tags: [ ldap, apt ]
+  notify: restart freeradius
+
+- import_tasks: "tasks/eduroam-sp.yml"
+
+- import_tasks: "tasks/eduroam-idp.yml"
+
+# This block can be removed when we revert to a stock package
+- name: Deal with the quirks of the PPA 3.x version (not needed for stock version)
+  become: yes
+  block:
+    - name: Preload libpam.so.0 for FreeRADIUS 3.x
+      lineinfile:
+        path: /etc/default/freeradius
+        regexp: "^LD_PRELOAD="
+        line: "LD_PRELOAD=/lib/{{ansible_userspace_architecture}}-linux-gnu/libpam.so.0"
+        backup: yes
+    - name: Put a note into the MOTD
+      copy:
+        dest: /etc/update-motd.d/99-freeradius-3-quirks
+        content: |2
+          #!/bin/sh
+          if $(grep -q LD_PRELOAD /etc/default/freeradius); then
+            printf "\n"
+            printf "FreeRADIUS 3.x from ppa:freeradius/stable-3.0 has some quirks.\n"
+            printf "If you need to run it in debugging mode, use:\n"
+            printf "$ LD_PRELOAD=/lib/{{ansible_userspace_architecture}}-linux-gnu/libpam.so.0 freeradius -X\n\n"
+          fi
+        owner: root
+        group: root
+        mode: 0755
+  when: use_pam is defined and use_pam
+  tags: freeradius
+
+- name: Start the FreeRADIUS service
+  become: yes
+  systemd:
+    name: freeradius
+    state: started
+    enabled: yes
+
+- name: Install cleanup task for detail files
+  become: yes
+  copy:
+    src: freeradius-radacctclean.sh
+    dest: /etc/cron.daily/freeradius-radacctclean
+    owner: root
+    group: root
+    mode: 0755
+  tags: freeradius

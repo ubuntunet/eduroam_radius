@@ -1,4 +1,4 @@
-radius ansible_host=196.223.212.2
+radius ansible_host=192.168.1.121
 
 [idp:vars]
 ansible_user=ubuntu

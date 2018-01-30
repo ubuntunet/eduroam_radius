@@ -1,0 +1,33 @@
+---
+# defaults file for freeradius-eduroam
+
+# Everything below should be overridden, and are here merely to make
+# sure we have something to work with when the templating engine runs
+eduroam_flr_servers:
+  - hostname: flr-cpt.eduroam.ac.za
+    ip: 155.232.195.20
+    port: 1812
+    secret: MySharedSecret
+  - hostname: flr-jnb.eduroam.ac.za
+    ip: 155.232.195.21
+    port: 1812
+    secret: MySharedSecret
+radius_realm: example.ac.za
+radius_local_users:
+  - username: nren_radius_test
+    password: PleaseChangeThisPassword
+
+use_pam: no
+pam_service_name: radiusd
+
+ldap: 
+  enabled: no
+  server: ldap.example.net
+  base_dn: ou=people,dc=example,dc=net
+  filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
+  # How are user passwords saved in LDAP
+  # user_password_type: Cleartext-Password
+  user_password_type: Password-With-Header
+  
+send_cui: yes
+send_username: no

@@ -1,10 +1,41 @@
-realms: 
-  - ubuntunet.mw
-  - ubuntunet.net
-
+---
 organisation: UbuntuNet Alliance
 city: Lilongwe
 country_code: MW
+
+radius_realms: 
+  - ubuntunet.mw
+  - ubuntunet.net
+  
+
+### Federation/National Level Roaming Operators ###
+### Get this information from your national Roaming Operator (NRO)
+eduroam_flr_servers:
+  - hostname: flr1.eduroam.maren.ac.mw
+    ip4: 41.70.23.5
+    ip6_enabled: False
+    ip6: ::1
+    port: 1812
+    secret: "{{ flr_secret }}"
+
+  # Second instance for Redundancy
+  - hostname: flra.eduroam.maren.ac.mw
+    ip4: 196.223.219.91
+    ip6_enabled: False
+    ip6: ::1
+    port: 1812
+    secret: "{{ flr_secret }}"
+
+
+
+send_cui: yes
+send_username: no
+
+
+
+
+
+
 
 
 ### Backends ###
@@ -19,8 +50,6 @@ file:
 ldap:
   enabled: True
   server: ldap.ubuntunet.net
-  identity: "{{ ldap_identity_ubuntunet }}"
-  password: "{{ ldap_password_ubuntunet }}"
   base_dn: ou=people,dc=ubuntunet,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
@@ -57,7 +86,7 @@ flrs:
     secret: "{{ mw_flr_secret }}"
 
 
-### Federation/National Level Registry ###
+### NRO Switchboard, eg. eduroam.ubuntunet.net ###
 
 djnro:
   name: DjNRO

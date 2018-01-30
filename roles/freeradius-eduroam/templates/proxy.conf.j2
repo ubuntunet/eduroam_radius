@@ -1,0 +1,122 @@
+# -*- text -*-
+##
+##  proxy.conf -- proxy radius and realm configuration directives
+##
+##  Per https://wiki.geant.org/display/H2eduroam/freeradius-sp
+##
+
+#######################################################################
+#
+#  Proxy server configuration
+#
+#  This entry controls the servers behaviour towards ALL other servers
+#  to which it sends proxy requests.
+#
+proxy server {
+	default_fallback = no
+}
+
+######################################################################
+#
+#  This section defines a "Home Server" which is another RADIUS
+#  server that gets sent proxied requests.
+
+home_server localhost {
+	type = auth+acct
+	ipaddr = 127.0.0.1
+	port = 1812
+	secret = testing123
+}
+
+#
+# These are the FLR servers for your country
+#
+{% for flr in eduroam_flr_servers %}
+
+home_server {{ flr.hostname.split('.') | first }}.ip4 {
+  type                  = auth+acct
+  ipaddr                = {{ flr.ip4 | default("127.0.0.1") }}
+  port                  = {{ flr.port | default("1812") }}
+  secret                = {{ flr.secret | default("MySharedSecret") }}
+  status_check          = status-server
+  response_window       = 20
+  zombie_period         = 40
+  revive_interval       = 60
+  check_interval        = 30
+  num_answers_to_alive	= 3
+}
+
+{% if flr.ip6_enabled %}
+home_server {{ flr.hostname.split('.') | first }}.ip6 {
+  type                  = auth+acct
+  ipaddr                = {{ flr.ip6 | default("::1") }}
+  port                  = {{ flr.port | default("1812") }}
+  secret                = {{ flr.secret | default("MySharedSecret") }}
+  status_check          = status-server
+  response_window       = 20
+  zombie_period         = 40
+  revive_interval       = 60
+  check_interval        = 30
+  num_answers_to_alive	= 3
+}
+{% endif %}
+
+{% endfor %}
+
+######################################################################
+#
+#  This section defines a pool of home servers that is used
+#  for fail-over and load-balancing.
+
+home_server_pool EDUROAM {
+	type = fail-over
+	#
+	# The order of the home_server entries in the pool is important.  You
+	# should put the one that's geographically closest to you (i.e. has the
+	# lowest ping time/latency) at the top of the list so you try it first.
+	#
+{% for flr in eduroam_flr_servers %}
+	home_server = {{flr.hostname.split('.')|first}}.ip4
+{% if flr.ip6_enabled %}
+	home_server = {{flr.hostname.split('.')|first}}.ip6
+{% endif %}
+{% endfor %}
+}
+
+######################################################################
+#
+#  This section defines a new-style "realm".  Note the in version 2.0,
+#  there are many fewer configuration items than in 1.x for a realm.
+
+# your local realms - leaving them blank stops them from ever being forwarded
+realm LOCAL {
+}
+realm NULL {
+}
+
+{% for realm in radius_realms %}
+
+realm {{ realm }} {
+}
+# this catches subdomains
+realm "~.+\\.{{ realm|replace('.','\\\\.' )}}$" {
+}
+
+{% endfor %}
+
+
+# blackhole routing - EAP-SIM/MNOs
+realm "~\\.3gppnetwork\\.org$" {
+    nostrip
+}
+
+# The default destination for unknown realms - forward to the upstream FLR servers
+# The regex version is required for f_ticks to log properly
+realm "~.+$" {
+	pool = EDUROAM
+	nostrip
+}
+realm DEFAULT {
+	pool = EDUROAM
+	nostrip
+}

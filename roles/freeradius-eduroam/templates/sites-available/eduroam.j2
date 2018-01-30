@@ -1,0 +1,86 @@
+# -*- text -*-
+######################################################################
+#
+#  This is a virtual server that handles incoming EAP for eduroam
+#  It is mostly configured per
+#  https://wiki.geant.org/display/H2eduroam/freeradius-sp and
+#  https://wiki.geant.org/display/H2eduroam/freeradius-idp
+#
+#  authorize → authenticate → pre-proxy → [PROXY] → post-proxy → post-auth
+#
+######################################################################
+
+server eduroam {
+	authorize {
+		# only use filter_username from version > 3.0.7
+		filter_username
+		# these normalise MAC addresses
+		rewrite_called_station_id
+		rewrite_calling_station_id
+		if (
+			{%- for flr in eduroam_flr_servers -%}
+				"%{client:shortname}" != "{{ (flr.hostname|default('unknown')).split('.')|first }}"
+				{%- if not loop.last %} && {% endif -%}
+			{%- endfor -%}
+		) {
+			update request {
+				&Operator-Name := "1{{radius_realm|default("example.ac.za")}}"
+				# the literal number "1" above is an important prefix! Do not change it!
+				&Eduroam-SP-Country := "{{radius_realm.split('.')|last|upper|default("UNKNOWN")}}"
+			}
+		}
+		cui
+		# if you want detailed logging
+		auth_log
+		suffix
+		eap {
+			ok = return
+		}
+	}
+
+	authenticate {
+		eap
+	}
+
+	preacct {
+		rewrite_called_station_id
+		rewrite_calling_station_id
+		suffix
+	}
+
+	accounting {
+	}
+
+	post-auth {
+		update {
+			&reply: += &session-state:
+		}
+		# if you want detailed logging
+		reply_log
+		f_ticks
+		remove_reply_message_if_eap
+		Post-Auth-Type REJECT {
+			reply_log
+			f_ticks
+			attr_filter.access_reject
+			eap
+			remove_reply_message_if_eap
+		}
+	}
+
+	pre-proxy {
+		cui
+		# if you want detailed logging
+		pre_proxy_log
+		if("%{Packet-Type}" != "Accounting-Request") {
+			attr_filter.pre-proxy
+		}
+	}
+
+	post-proxy {
+		# if you want detailed logging
+		post_proxy_log
+		attr_filter.post-proxy
+		eap
+	}
+}

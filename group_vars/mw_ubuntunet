@@ -57,7 +57,7 @@ flrs:
 
 ### Federation/National Level Registry ###
 
-djnro:
+switchboard:
   name: DjNRO
   # shortname: djnro
   ip4: 196.223.218.92
@@ -66,4 +66,4 @@ djnro:
 ### Additional Roles ###
 
 # Role for testing Radius IdP functionality
-play_eapol: False
+play_eapol: True

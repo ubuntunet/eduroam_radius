@@ -1,0 +1,8 @@
+  ldap {
+    server = "{{ ldap.server }}"
+    identity = "{{ ldap_identity }}"
+    password = "{{ ldap_password }}"
+    basedn = "{{ ldap.base_dn }}"
+    filter = "{{ ldap.filter }}"
+    start_tls = no
+  }

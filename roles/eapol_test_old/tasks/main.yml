@@ -1,0 +1,61 @@
+- name: Install Make
+  apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
+  with_items:
+    - build-essential
+    - libssl-dev
+
+- name: Install Library for 14.04
+  apt: pkg=libnl-dev
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'trusty'
+
+- name: Install Library for 16.04
+  apt: pkg=libnl-3-dev
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'
+
+- name: Link libnl library for 16.04
+  file: 
+    src: /lib/x86_64-linux-gnu/libnl-3.so 
+    dest: /lib/x86_64-linux-gnu/libnl.so 
+    state: link
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial'
+
+- name: Download wpa_supplicant
+  get_url:
+    url: http://w1.fi/releases/wpa_supplicant-2.6.tar.gz
+    dest: /opt/wpa_supplicant-2.6.tar.gz
+
+- name: Extract wpa_supplicant
+  unarchive:
+    src: /opt/wpa_supplicant-2.6.tar.gz
+    dest: /opt
+    copy: no
+
+- name: Move config
+  copy:
+    src: /opt/wpa_supplicant-2.6/wpa_supplicant/defconfig
+    dest: /opt/wpa_supplicant-2.6/wpa_supplicant/.config
+    remote_src: true
+
+- name: Enable eapol_test
+  replace:
+    dest: /opt/wpa_supplicant-2.6/wpa_supplicant/.config
+    regexp: '#CONFIG_EAPOL_TEST=y' 
+    replace: 'CONFIG_EAPOL_TEST=y'
+
+- name: Compile the stuff
+  make: 
+    target: eapol_test
+    chdir: /opt/wpa_supplicant-2.6/wpa_supplicant
+        
+- name: Move eapol_test bin
+  copy: 
+    dest: /usr/local/bin/eapol_test
+    src: /opt/wpa_supplicant-2.6/wpa_supplicant/eapol_test
+    remote_src: true
+    mode: 755
+
+- name: Copy the test configuration file for PEAP MSCHAPv2
+  template:
+    src: peap-mschapv2.conf.j2
+    dest: ~/peap-mschapv2.conf
+

@@ -1,0 +1,124 @@
+---
+#
+# Configure FreeRADIUS per eduroam technical documentation at
+# https://wiki.geant.org/display/H2eduroam/freeradius-sp
+# (as at v.38 dated 9 August 2017)
+#
+- name: Sent Access-Reject immediately
+  become: yes
+  replace:
+    path: "{{radius.config_path}}/radiusd.conf"
+    regexp: "^\\s*reject_delay\\s*=\\s*(?!0)\\d+\\s*$"
+    replace: "	reject_delay = 0"
+  backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Respond to Status-Server requests.
+  become: yes
+  replace:
+    path: "{{radius.config_path}}/radiusd.conf"
+    regexp: "^\\s*status_server\\s*=\\s*(?!yes).*$"
+    replace: "	status_server = yes"
+  backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Turn proxying of RADIUS requests on
+  become: yes
+  replace:
+    path: "{{radius.config_path}}/radiusd.conf"
+    regexp: "^\\s*proxy_requests\\s*=\\s*(?!yes).*$"
+    replace: "	proxy_requests = yes"
+  backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Configure eduroam virtual site from template
+  become: yes
+  template:
+    src: sites-available/eduroam.j2
+    dest: "{{radius.config_path}}/sites-available/eduroam"
+    mode: 0644
+  backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Enable eduroam virtual site
+  become: yes
+  file:
+    state: link
+    src: "{{radius.config_path}}/sites-available/eduroam"
+    path: "{{radius.config_path}}/sites-enabled/eduroam"
+  backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Dont strip Operator-Name and related attributes before proxying
+  become: yes
+  template:
+    src: mods-config/attr_filter/pre-proxy.j2
+    dest: "{{radius.config_path}}/mods-config/attr_filter/pre-proxy"
+    mode: 0644
+  # backup: yes
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+# By doing this as an include, we can avoid overwriting any
+# existing client configs
+- name:
+  become: yes
+  lineinfile:
+    path: "{{radius.config_path}}/clients.conf"
+    regexp: "^\\$INCLUDE clients-eduroam-flrs.conf"
+    state: present
+    line: "$INCLUDE clients-eduroam-flrs.conf"
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Add eduroam FLRS client configurations
+  become: yes
+  template:
+    src: clients.conf.j2
+    dest: "{{radius.config_path}}/clients-eduroam-flrs.conf"
+    mode: 0644
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Add eduroam proxy configurations
+  become: yes
+  template:
+    src: proxy.conf.j2
+    dest: "{{radius.config_path}}/proxy.conf"
+    mode: 0644
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Add fticks module
+  become: yes
+  template:
+    src: mods-available/f_ticks.j2
+    dest: "{{radius.config_path}}/mods-available/f_ticks"
+    mode: 0644
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]
+
+- name: Enable the fticks module
+  become: yes
+  file:
+    state: link
+    src: "{{radius.config_path}}/mods-available/f_ticks"
+    path: "{{radius.config_path}}/mods-enabled/f_ticks"
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-sp ]

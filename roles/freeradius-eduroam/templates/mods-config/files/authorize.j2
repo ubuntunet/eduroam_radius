@@ -1,0 +1,34 @@
+# -*- text -*-
+##  This file contains authentication security and configuration
+##  information for each user.  Accounting requests are NOT processed
+##  through this file.  Instead, see 'acct_users', in this directory.
+##
+
+{% if use_pam %}
+# You can include local (non-PAM) users like this:
+
+# icecold	Realm == "{{radius_realm}}", Cleartext-Password := "snowwhite"
+
+# otheruser	Realm == "{{radius_realm}}", Cleartext-Password := "swordfish"
+{% else %}
+# You can include local users like this:
+
+# icecold@{{radius_realm}}	Cleartext-Password := "snowwhite"
+
+# otheruser@{{radius_realm}}	Cleartext-Password := "swordfish"
+{% endif %}
+{% for u in radius_local_users %}
+
+{% if use_pam %}
+{{u.username|default("nren_radius_test")}}	Realm == "{{radius_realm}}", Cleartext-Password := "{{u.password|default("PleaseChangeThisPassword")}}"
+{% else %}
+{{u.username|default("nren_radius_test")}}@{{radius_realm}}	Cleartext-Password := "{{u.password|default("PleaseChangeThisPassword")}}"
+{% endif %}
+{% endfor %}
+
+{% if use_pam %}
+# This catches all remaining users and sends them to PAM
+DEFAULT	Virtual-Server == eduroam-inner-tunnel, Pam-Auth := "{{pam_service_name}}", Auth-Type := PAM
+
+{% endif %}
+# On no match, the user is denied access.

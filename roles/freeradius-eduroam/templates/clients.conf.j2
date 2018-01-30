@@ -1,0 +1,44 @@
+# -*- text -*-
+
+
+# Access Points
+
+{% for client in clients %}
+
+  client {{ client.name }} {
+    ipaddr                          = {{ client.ip4 }}
+    netmask                         = {{ client.netmask|default(netmask) }}
+    secret                          = {{ client.secret }}
+    require_message_authenticator   = yes
+    nastype                         = {{ client.nastype|default(nastype) }}
+    virtual_server                  = {{ client.virtual_server|default(virtual_server) }}
+  }
+
+{% endfor %}
+
+
+# Entries for the Federation/National Level Radius Servers
+
+{% for flr in eduroam_flr_servers %}
+
+client {{ flr.hostname }} {
+    ipaddr                          = {{ flr.ip4 }}
+    netmask                         = {{ flr.netmask|default(netmask) }}
+    secret                          = {{ flr.secret | default("MySharedSecret") }}
+    require_message_authenticator   = yes
+    nastype                         = {{ flr.nastype|default(nastype) }}
+    virtual_server                  = {{ flr.virtual_server|default(virtual_server) }}
+}
+
+{% endfor %}
+
+
+# Entry for the Federation/National Registry
+client {{ switchboard.name }} {
+    ipaddr                          = {{ switchboard.ip4 }}
+    secret                          = {{ switchboard_secret }}
+    netmask                         = {{ switchboard.netmask|default(netmask) }}
+    require_message_authenticator   = yes
+    nastype                         = {{ switchboard.nastype|default(nastype) }}
+    virtual_server                  = {{ switchboard.virtual_server|default(virtual_server) }}
+}

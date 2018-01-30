@@ -1,8 +1,23 @@
-- name: Install Make
-  apt: pkg={{ item }} update_cache=yes cache_valid_time=36000
+---
+# tasks file for eapol_test
+- name: Download wpa_supplicant
+  unarchive:
+    src: https://w1.fi/releases/wpa_supplicant-{{wpa_supplicant_version}}.tar.gz
+    remote_src: yes
+    dest: /tmp
+    creates: /tmp/wpa_supplicant-{{wpa_supplicant_version}}/wpa_supplicant/eapol_test.c
+  tags: eapol_test
+
+- name: Install build requirements from Apt
+  become: yes
+  apt:
+    update_cache: yes
+    name: "{{item}}"
+    state: present
   with_items:
     - build-essential
     - libssl-dev
+  tags: [ eapol_test, apt ]
 
 - name: Install Library for 14.04
   apt: pkg=libnl-dev
@@ -30,27 +45,46 @@
     dest: /opt
     copy: no
 
-- name: Move config
+- name: Copy build configuration
   copy:
-    src: /opt/wpa_supplicant-2.6/wpa_supplicant/defconfig
-    dest: /opt/wpa_supplicant-2.6/wpa_supplicant/.config
-    remote_src: true
+    src: debconfig
+    dest: /tmp/wpa_supplicant-{{wpa_supplicant_version}}/wpa_supplicant/.config
+  tags: eapol_test
 
-- name: Enable eapol_test
-  replace:
-    dest: /opt/wpa_supplicant-2.6/wpa_supplicant/.config
-    regexp: '#CONFIG_EAPOL_TEST=y' 
-    replace: 'CONFIG_EAPOL_TEST=y'
+- name: Build eapol_test
+  shell: |2
+    make eapol_test
+  args:
+    chdir: /tmp/wpa_supplicant-{{wpa_supplicant_version}}/wpa_supplicant
+    creates: eapol_test
+  tags: eapol_test
 
-- name: Compile the stuff
-  make: 
-    target: eapol_test
-    chdir: /opt/wpa_supplicant-2.6/wpa_supplicant
-        
-- name: Move eapol_test bin
-  copy: 
+- name: Install eapol_test
+  become: yes
+  copy:
+    src: /tmp/wpa_supplicant-{{wpa_supplicant_version}}/wpa_supplicant/eapol_test
+    remote_src: yes
     dest: /usr/local/bin/eapol_test
-    src: /opt/wpa_supplicant-2.6/wpa_supplicant/eapol_test
-    remote_src: true
-    mode: 755
+    owner: root
+    group: root
+    mode: 0755
+  tags: eapol_test
 
+- name: Install rad_eap_test
+  become: yes
+  get_url:
+    url: https://raw.githubusercontent.com/CESNET/rad_eap_test/master/rad_eap_test
+    dest: /usr/local/bin/rad_eap_test
+    owner: root
+    group: root
+    mode: 0755
+    force: no
+  tags: eapol_test
+
+- name: Fix EAPOL_PROG location in rad_eap_test
+  become: yes
+  replace:
+    path: /usr/local/bin/rad_eap_test
+    regexp: "^EAPOL_PROG=(?!\\$\\(dirname).*$"
+    replace: 'EAPOL_PROG=$(dirname "$0")/eapol_test'
+  tags: eapol_test

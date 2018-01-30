@@ -80,7 +80,19 @@ realm NULL {
 	  nostrip
 }
 
+# blackhole routing - EAP-SIM/MNOs
+realm "~\\.3gppnetwork\\.org$" {
+    nostrip
+}
+
+# The default destination for unknown realms - forward to the upstream FLR servers
+# The regex version is required for f_ticks to log properly
+realm "~.+$" {
+  pool = EDUROAM-FTLR
+  nostrip
+}
+
 realm DEFAULT {
-        pool                    = EDUROAM-FTLR
+        pool  = EDUROAM-FTLR
         nostrip
 }

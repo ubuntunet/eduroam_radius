@@ -1,0 +1,98 @@
+---
+#
+# Configure FreeRADIUS per eduroam technical documentation at
+# https://wiki.geant.org/display/H2eduroam/freeradius-idp
+# (as at v.27 dated 9 August 2017)
+# As noted there, you must complete the SP configuration first
+#
+- name: Override the eap module config in the FreeRADIUS approved way
+  become: yes
+  block:
+    - name: Check whether we've overwritten the default eap module
+      stat:
+        path: "{{radius.config_path}}/mods-enabled/eap"
+        follow: no
+        get_attributes: no
+        get_checksum: no
+        get_md5: no
+        get_mime: no
+      register: eap
+    - name: Disable the default eap module
+      file:
+        path: "{{radius.config_path}}/mods-enabled/eap"
+        state: absent
+      when: eap.stat.islnk is defined and eap.stat.islnk
+    - name: Install a new eduroam-ish eap module
+      template:
+        src: mods-available/eap.j2
+        dest: "{{radius.config_path}}/mods-enabled/eap"
+      notify:
+        - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]
+
+- name: Configure eduroam-inner-tunnel virtual site
+  become: yes
+  template:
+    src: sites-available/eduroam-inner-tunnel.j2
+    dest: "{{radius.config_path}}/sites-available/eduroam-inner-tunnel"
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]
+
+- name: Enable eduroam-inner-tunnel virtual site
+  become: yes
+  file:
+    state: link
+    src: "{{radius.config_path}}/sites-available/eduroam-inner-tunnel"
+    path: "{{radius.config_path}}/sites-enabled/eduroam-inner-tunnel"
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]
+
+- name: Create a users file
+  become: yes
+  template:
+    src: mods-config/files/authorize.j2
+    dest: "{{radius.config_path}}/mods-config/files/authorize"
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]
+
+- name: Copy LDAP module if enabled
+  template:
+    src: modules-ldap.j2 
+    dest: "{{radius.config_path}}/modules/ldap"
+    backup: yes
+  notify: restart freeradius
+  when: ldap.enabled == True
+
+- name: Copy LDAP attributemap if enabled
+  template:
+    src: ldap.attrmap.j2 
+    dest: "{{radius.config_path}}/ldap.attrmap"
+    backup: yes
+  notify: restart freeradius
+  when: ldap.enabled == True
+
+
+- name: Enable the PAM module
+  become: yes
+  file:
+    state: link
+    src: "{{radius.config_path}}/mods-available/pam"
+    path: "{{radius.config_path}}/mods-enabled/pam"
+  when: use_pam is defined and use_pam
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]
+
+- name: Seed a secret for Chargeable-User-Identity
+  become: yes
+  replace:
+    path: "{{radius.config_path}}/policy.d/cui"
+    regexp: "^cui_hash_key\\s*=\\s*[\"']changeme[\"']?\\s*$"
+    replace: "cui_hash_key = \"{{ lookup('password', '/dev/null') }}\""
+  when: send_cui is defined and send_cui
+  notify:
+    - restart freeradius
+  tags: [ freeradius, freeradius-config, eduroam-idp ]

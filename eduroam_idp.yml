@@ -26,6 +26,7 @@
     - group_vars/clients.yml
   roles:
     - freeradius
+    # - { role: freeradius-eduroam, use_pam: no }
     - { role: eapol_test, when: play_eapol == True }
     
   handlers:

@@ -1,0 +1,7 @@
+# Minimal configuration to build eapol_test only
+CONFIG_EAP_MSCHAPV2=y
+CONFIG_EAP_TLS=y
+CONFIG_EAP_PEAP=y
+CONFIG_EAP_TTLS=y
+CONFIG_BACKEND=file
+CONFIG_EAPOL_TEST=y

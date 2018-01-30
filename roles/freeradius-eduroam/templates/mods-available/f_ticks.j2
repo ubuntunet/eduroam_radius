@@ -1,0 +1,17 @@
+# -*- text -*-
+##
+##  f_ticks -- Configuration for f_ticks logging
+##
+##  Per https://wiki.geant.org/display/H2eduroam/freeradius-sp
+##
+linelog f_ticks {
+	filename = syslog
+	#syslog_facility = local0
+	#syslog_severity = info
+	format = ""
+	reference = "f_ticks.%{{ '{%' }}{reply:Packet-Type}:-format}"
+	f_ticks {
+		Access-Accept = "F-TICKS/eduroam/1.0#REALM=%{Realm}#VISCOUNTRY=%{Eduroam-SP-Country}#VISINST=%{Operator-Name}#CSI=%{Calling-Station-Id}#RESULT=OK#"
+		Access-Reject = "F-TICKS/eduroam/1.0#REALM=%{Realm}#VISCOUNTRY=%{Eduroam-SP-Country}#VISINST=%{Operator-Name}#CSI=%{Calling-Station-Id}#RESULT=FAIL#"
+	}
+}

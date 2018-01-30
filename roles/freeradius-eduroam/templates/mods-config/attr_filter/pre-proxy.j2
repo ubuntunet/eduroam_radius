@@ -1,0 +1,24 @@
+# -*- text -*-
+##
+##  Configuration file for the rlm_attr_filter module.
+##  Please see rlm_attr_filter(5) manpage for more information.
+##
+##  Per https://wiki.geant.org/display/H2eduroam/freeradius-sp
+##
+
+# The rest of this file contains the DEFAULT entry.
+# DEFAULT matches with all realm names.
+
+DEFAULT
+	User-Name =* ANY,
+	EAP-Message =* ANY,
+	Message-Authenticator =* ANY,
+	State =* ANY,
+	NAS-IP-Address =* ANY,
+	NAS-Identifier =* ANY,
+	Operator-Name =* ANY,
+	Eduroam-SP-Country =* ANY,
+	Calling-Station-Id =* ANY,
+	Called-Station-Id =* ANY,
+	Chargeable-User-Identity =* ANY,
+	Proxy-State =* ANY

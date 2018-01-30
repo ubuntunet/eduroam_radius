@@ -1,0 +1,134 @@
+# -*- text -*-
+######################################################################
+#
+#  This is a virtual server that handles *only* inner tunnel
+#  requests for EAP-TTLS and PEAP types.
+#  It is mostly configured per
+#  https://wiki.geant.org/display/H2eduroam/freeradius-idp
+#
+#  authorize → authenticate → post-auth
+#
+######################################################################
+
+server eduroam-inner-tunnel {
+
+#
+#  This next section is here to allow testing of the "inner-tunnel"
+#  authentication methods, independently from the "default" server.
+#  It is listening on "localhost", so that it can only be used from
+#  the same machine.
+#
+#	$ radtest USER PASSWORD 127.0.0.1:18121 0 testing123
+#
+#  If it works, you have configured the inner tunnel correctly.
+#
+#  To check if TTLS/PAP will work, use:
+#
+#	$ radtest -t pap USER PASSWORD 127.0.0.1:18121 0 testing123
+#
+#  To check if PEAP/MSCHAPv2 will work, use:
+#
+#	$ radtest -t mschap USER PASSWORD 127.0.0.1:18121 0 testing123
+#
+#  If the EAP type(s) you're expecting doesn't work, then
+#
+#	FIX THE INNER TUNNEL CONFIGURATION SO THAT IT WORKS.
+#
+#  Do NOT do any EAP tests.  It won't help.  Instead, concentrate
+#  on fixing the inner tunnel configuration.  DO NOTHING ELSE.
+#
+	listen {
+		ipaddr = 127.0.0.1
+		port = 18121
+		type = auth
+	}
+
+	authorize {
+		auth_log
+		filter_username
+{% if use_pam %}
+		#  we use suffix here so that the pam_imap module can specify
+		#  it's own realm, but that has implications in the users file
+		suffix
+{% endif %}
+		update control {
+			&Proxy-To-Realm := LOCAL
+		}
+		eap {
+			ok = return
+		}
+		files
+		expiration
+		mschap
+		pap
+	}
+
+
+	authenticate {
+		Auth-Type PAP {
+			pap
+		}
+
+		Auth-Type MS-CHAP {
+			mschap
+		}
+		mschap
+{% if use_pam %}
+
+		#  Pluggable Authentication Modules
+		pam
+{% endif %}
+
+		eap
+	}
+
+	#  Session database, used for checking Simultaneous-Use. Either the radutmp
+	#  or rlm_sql module can handle this.
+	#  The rlm_sql module is *much* faster
+	session {
+		radutmp
+	}
+
+	post-auth {
+		# This sets a Chargeable-User-Identity, remember to set cui_hash_key
+		# in policy.d/cui so your users' privacy is preserved
+{{ "" if send_cui else "#"     }}		cui-inner
+		reply_log
+		if (&outer.request:EAP-Message) {
+			# This copies the real (inner) User-Name to the outer tunnel,
+			# replacing any anonymous identity. This has privacy implications,
+			# but can make debugging and accounting significantly easier
+{{ "" if send_username else "#" }}			update outer.reply {
+{{ "" if send_username else "#" }}				&User-Name = "%{request:User-Name}"
+{{ "" if send_username else "#" }}			}
+
+			# New way of doing use_tunneled_reply = yes
+			# These attributes are for the inner-tunnel only
+			# and MUST NOT be copied to the outer reply.
+			update reply {
+				User-Name !* ANY
+				Message-Authenticator !* ANY
+				EAP-Message !* ANY
+				Proxy-State !* ANY
+				MS-MPPE-Encryption-Types !* ANY
+				MS-MPPE-Encryption-Policy !* ANY
+				MS-MPPE-Send-Key !* ANY
+				MS-MPPE-Recv-Key !* ANY
+			}
+			# Copy reply to outer session, and hence the outer.reply
+			update {
+				&outer.session-state: += &reply:
+			}
+		}
+		Post-Auth-Type REJECT {
+			reply_log
+			attr_filter.access_reject
+			if (&outer.request:EAP-Message) {
+				update outer.session-state {
+					&Module-Failure-Message := &request:Module-Failure-Message
+				}
+			}
+		}
+	}
+
+} # eduroam-inner-tunnel server block

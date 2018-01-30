@@ -1,41 +1,11 @@
 ---
-organisation: UbuntuNet Alliance
-city: Lilongwe
-country_code: MW
-
-radius_realms: 
+realms: 
   - ubuntunet.mw
   - ubuntunet.net
   
-
-### Federation/National Level Roaming Operators ###
-### Get this information from your national Roaming Operator (NRO)
-eduroam_flr_servers:
-  - hostname: flr1.eduroam.maren.ac.mw
-    ip4: 41.70.23.5
-    ip6_enabled: False
-    ip6: ::1
-    port: 1812
-    secret: "{{ flr_secret }}"
-
-  # Second instance for Redundancy
-  - hostname: flra.eduroam.maren.ac.mw
-    ip4: 196.223.219.91
-    ip6_enabled: False
-    ip6: ::1
-    port: 1812
-    secret: "{{ flr_secret }}"
-
-
-
-send_cui: yes
-send_username: no
-
-
-
-
-
-
+organisation: UbuntuNet Alliance
+city: Lilongwe
+country_code: MW
 
 
 ### Backends ###
@@ -43,13 +13,15 @@ send_username: no
 # Static File
 file:
   enabled: True
-  test_user_name: test
+  test_user_name: roamer
 
 
 # LDAP Backend
 ldap:
   enabled: True
   server: ldap.ubuntunet.net
+  identity: "{{ ldap_identity_ubuntunet }}"
+  password: "{{ ldap_password_ubuntunet }}"
   base_dn: ou=people,dc=ubuntunet,dc=net
   filter: "{% raw %}(uid=%{%{Stripped-User-Name}:-%{User-Name}}){% endraw %}"
   # How are user passwords saved in LDAP, used in ldap.attrmap
@@ -65,25 +37,28 @@ sql:
   user: radius
 
 
+send_cui: yes
+send_username: no
+
+
 ### Federation/National Level Roaming Operators ###
 ### Get this information from your national Roaming Operator (NRO)
+
 flrs:
   -
-    name: flr1.eduroam
-    shortname: flr1
-    ip4: 41.70.23.5
-    ipv6_enabled: False
-    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
-
-  # Second instance for Redundancy
-  -
-    name: flra.eduroam
+    name: flra.udp.mw
     shortname: flra
     ip4: 196.223.219.91
     ipv6_enabled: False
     ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
-    secret: "{{ mw_flr_secret }}"
+
+  # Second instance for Redundancy
+  -
+    name: flr1.udp.mw
+    shortname: flr1
+    ip4: 155.232.192.130
+    ipv6_enabled: False
+    ip6: 2002:2946:1802:b:ca1f:66ff:feb9:ce58
 
 
 ### NRO Switchboard, eg. eduroam.ubuntunet.net ###
